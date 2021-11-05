@@ -21,6 +21,15 @@ def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
     st.balloons()
     chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
+    color = st.sidebar.color_picker('Pick A Color You Like', '#00f900')
+    st.sidebar.write('The current color is', color)
+    if "celsius" not in st.session_state:
+        # set the initial default value of the slider widget
+        st.session_state.celsius = 50.0
+
+    st.sidebar.slider("Temperature in Celsius",min_value=-100.0,max_value=100.0,key="celsius")
+    # This will get the value of the slider widget
+    st.sidebar.write(st.session_state.celsius)
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     empty_ele=st.empty()
     data=np.random.randn(20,3)
@@ -37,7 +46,7 @@ def main():
     elif chart == 'Hist':
         arr = np.random.normal(1, 1, size=100)
         fig, ax = plt.subplots()
-        ax.hist(arr, bins=20)
+        ax.hist(arr, bins=15)
         empty_ele.pyplot(fig)
 
     elif chart == 'Altair':
@@ -85,23 +94,6 @@ def main():
                 new -> runmem
                 sleep -> runmem
             }''')
-
-    color = st.color_picker('Pick A Color You Like', '#00f900')
-    st.write('The current color is', color)
-
-    if "celsius" not in st.session_state:
-        # set the initial default value of the slider widget
-        st.session_state.celsius = 50.0
-
-    st.slider(
-        "Temperature in Celsius",
-        min_value=-100.0,
-        max_value=100.0,
-        key="celsius"
-    )
-
-    # This will get the value of the slider widget
-    st.write(st.session_state.celsius)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
