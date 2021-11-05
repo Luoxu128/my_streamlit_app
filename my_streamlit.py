@@ -119,11 +119,11 @@ def main():
 
 @st.cache
 def get_one_picture(animal):
-    if what == 'Cat':
+    if animal == 'Cat':
         url=requests.get('https://aws.random.cat/meow').json()['file']
-    elif what == 'Dog':
+    elif animal == 'Dog':
         url=requests.get('https://random.dog/woof.json').json()['url']
-    elif what == 'Fox':
+    elif animal == 'Fox':
         url=requests.get('https://randomfox.ca/floof/').json()['link']
     r=requests.get(url)
     img=Image.open(BytesIO(r.content))
