@@ -6,15 +6,19 @@ import datetime
 import traceback
 from copy import deepcopy
 
-import requests
-import graphviz
-import pydeck as pdk
+import streamlit as st
 import pandas as pd
 import numpy as np
-import streamlit as st
+import requests
+
+import graphviz
+import pydeck as pdk
 import altair as alt
 import plotly.figure_factory as ff
 import matplotlib.pyplot as plt
+
+from PIL import Image
+from io import BytesIO
 
 
 def main():
@@ -102,6 +106,12 @@ def main():
                 new -> runmem
                 sleep -> runmem
             }''')
+
+    empty_ele1=st.empty()
+    cat_url=requests.get('https://aws.random.cat/meow').json()['file']
+    r=requests.get(cat_url)
+    img=Image.open(BytesIO(r.content))
+    empty_ele1.image(img, caption='A Cat Picture')
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
