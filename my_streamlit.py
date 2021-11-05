@@ -53,7 +53,8 @@ def main():
     plot_one_chart(chart,empty_ele)
 
     empty_ele1=st.empty()
-    plot_one_picture(animal,empty_ele1)
+    img=get_one_picture(animal)
+    empty_ele1.image(img, caption=f'A {animal} Picture',use_column_width=False)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
@@ -126,7 +127,7 @@ def plot_one_chart(chart,empty_ele):
     return None
 
 @st.cache
-def plot_one_picture(animal,empty_ele1):
+def get_one_picture(animal):
     if animal == 'Cat':
         url=requests.get('https://aws.random.cat/meow').json()['file']
     elif animal == 'Dog':
@@ -135,8 +136,7 @@ def plot_one_picture(animal,empty_ele1):
         url=requests.get('https://randomfox.ca/floof/').json()['image']
     r=requests.get(url)
     img=Image.open(BytesIO(r.content))
-    empty_ele1.image(img, caption=f'A {animal} Picture',use_column_width=False)
-    return None
+    return img
 
 
 if __name__ == '__main__':
