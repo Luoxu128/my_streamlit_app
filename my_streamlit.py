@@ -124,6 +124,7 @@ def plot_one_chart(chart,empty_ele):
                 new -> runmem
                 sleep -> runmem
             }''')
+    return None
 
 @st.cache
 def plot_one_picture(animal,empty_ele1):
