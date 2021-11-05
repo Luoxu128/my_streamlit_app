@@ -13,20 +13,23 @@ import streamlit as st
 
 
 st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
-chart=st.sidebar.radio('选择图表',['Line','Bar'])
-st.title(':sunny:')
-st.markdown('Streamlit is **_really_ cool**.')
-st.caption('This is a string that explains something above.')
-code = '''def hello():
-    print("Hello, Streamlit!")'''
-st.code(code, language='python')
-st.text('This is some text.')
-st.latex(r'''a + ar + a r^2 + a r^3 + \cdots + a r^{n-1} =\sum_{k=0}^{n-1} ar^k =a \left(\frac{1-r^{n}}{1-r}\right)''')
-col1, col2, col3 = st.columns(3)
-col1.metric("Temperature", "70 °F", "1.2 °F")
-col2.metric("Wind", "9 mph", "-8%")
-col3.metric("Humidity", "86%", "4%")
+chart=st.sidebar.radio('选择图表',['Line','Bar','Area'])
+st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
+empty_ele=st.empty()
+if chart == 'Line':
+    data=np.random.randn(20,3)
+    df=pd.DataFrame(data,columns=['a', 'b', 'c'])
+    empty_ele.line_chart(df)
 
+elif chart == 'Bar':
+    data=np.random.randn(20,3)
+    df=pd.DataFrame(data,columns=['a', 'b', 'c'])
+    empty_ele.area_chart(df)
+
+elif chart == 'Area':
+    data=np.random.randn(20,3)
+    df=pd.DataFrame(data,columns=['a', 'b', 'c'])
+    empty_ele.bar_chart(df)
 
 if "celsius" not in st.session_state:
     # set the initial default value of the slider widget
