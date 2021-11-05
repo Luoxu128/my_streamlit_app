@@ -10,12 +10,13 @@ import requests
 import pandas as pd
 import numpy as np
 import streamlit as st
+import altair as alt
 import matplotlib.pyplot as plt
 
 
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
-    chart=st.sidebar.radio('选择图表',['Line','Bar','Area','Hist'])
+    chart=st.sidebar.radio('选择图表',['Line','Bar','Area','Hist','Altair'])
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     empty_ele=st.empty()
     data=np.random.randn(20,3)
@@ -34,6 +35,10 @@ def main():
         fig, ax = plt.subplots()
         ax.hist(arr, bins=20)
         empty_ele.pyplot(fig)
+    elif chart == 'Altair':
+        df = pd.DataFrame(np.random.randn(200, 3),columns=['a', 'b', 'c'])
+        c = alt.Chart(df).mark_circle().encode(x='a', y='b', size='c', color='c', tooltip=['a', 'b', 'c'])
+        empty_ele.altair_chart(c, use_container_width=True)
 
     if "celsius" not in st.session_state:
         # set the initial default value of the slider widget
