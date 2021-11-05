@@ -108,15 +108,21 @@ def main():
             }''')
 
     empty_ele1=st.empty()
-    cat_url=requests.get('https://aws.random.cat/meow').json()['file']
-    r=requests.get(cat_url)
-    img=Image.open(BytesIO(r.content))
+    img=get_one_cat_picture()
     empty_ele1.image(img, caption='A Cat Picture',use_column_width=False)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
             code=f.read()
         st.code(code,language="python")
+
+@st.cache
+def get_one_cat_picture():
+    cat_url=requests.get('https://aws.random.cat/meow').json()['file']
+    r=requests.get(cat_url)
+    img=Image.open(BytesIO(r.content))
+    return img
+
 
 if __name__ == '__main__':
     main()
