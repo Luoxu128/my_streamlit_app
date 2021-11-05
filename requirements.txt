@@ -9,3 +9,4 @@ plotly==5.3.1
 PyDeck==0.7.1
 bokeh==2.4.1
 graphviz==0.17
+scipy==1.6.1
