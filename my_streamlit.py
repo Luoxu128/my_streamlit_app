@@ -39,6 +39,9 @@ def main():
         # set the initial default value of the slider widget
         st.session_state.celsius = 50.0
 
+    d=st.sidebar.date_input('Date')
+    t=st.sidebar.time_input('Time')
+    st.sidebar.write(f'The current date time is {d} {t}')
     st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
@@ -110,7 +113,7 @@ def main():
     empty_ele1=st.empty()
     animal=st.sidebar.selectbox('Select Animal You Like',['Cat','Dog','Fox'])
     img=get_one_picture(animal)
-    empty_ele1.image(img, caption='A Cat Picture',use_column_width=False)
+    empty_ele1.image(img, caption=f'A {animal} Picture',use_column_width=False)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
