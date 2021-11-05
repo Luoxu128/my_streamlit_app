@@ -13,13 +13,13 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import altair as alt
-from bokeh.plotting import figure,show
 import plotly.figure_factory as ff
 import matplotlib.pyplot as plt
 
 
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
+    st.balloons()
     chart=st.sidebar.radio('选择图表',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Bokeh','Graphviz'])
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     empty_ele=st.empty()
@@ -68,13 +68,6 @@ def main():
             layers=[pdk.Layer('HexagonLayer',data=df,get_position='[lon, lat]',radius=200,elevation_scale=4,elevation_range=[0, 1000],pickable=True,extruded=True),
             pdk.Layer('ScatterplotLayer',data=df,get_position='[lon, lat]',get_color='[200, 30, 0, 160]',get_radius=200)]))
 
-    elif chart == 'Bokeh':
-        x = [1, 2, 3, 4, 5]
-        y = [6, 7, 2, 4, 5]
-        p = figure(title='simple line example',x_axis_label='x',y_axis_label='y')
-        p.line(x, y, legend_label='Trend', line_width=2)
-        show(p)
-
     elif chart == 'Graphviz':
         st.graphviz_chart('''
             digraph {
@@ -92,6 +85,15 @@ def main():
                 new -> runmem
                 sleep -> runmem
             }''')
+
+    color = st.color_picker('Pick A Color You Like', '#00f900')
+    st.write('The current color is', color)
+
+    with open('my_streamlit.py','r') as f:
+        code=f.read()
+
+    with st.expander("view code detail"):
+        st.write(code)
 
     if "celsius" not in st.session_state:
         # set the initial default value of the slider widget
