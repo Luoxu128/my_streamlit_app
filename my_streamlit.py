@@ -23,9 +23,11 @@ from io import BytesIO
 
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
+    st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
     d=st.sidebar.date_input('Date',date_time.date())
     t=st.sidebar.time_input('Time',date_time.time())
+    t=f'{t}'.split('.')[0]
     st.sidebar.write(f'The current date time is {d} {t}')
     chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
     st.markdown(f'### {chart} Chart')
@@ -46,7 +48,6 @@ def main():
     st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
-    st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     empty_ele=st.empty()
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
