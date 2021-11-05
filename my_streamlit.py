@@ -108,7 +108,8 @@ def main():
             }''')
 
     empty_ele1=st.empty()
-    img=get_one_cat_picture()
+    animal=st.sidebar.selectbox('Select Animal You Like',['Cat','Dog','Fox'])
+    img=get_one_cat_picture(animal)
     empty_ele1.image(img, caption='A Cat Picture',use_column_width=False)
 
     with st.expander("View Code"):
@@ -117,9 +118,14 @@ def main():
         st.code(code,language="python")
 
 @st.cache
-def get_one_cat_picture():
-    cat_url=requests.get('https://aws.random.cat/meow').json()['file']
-    r=requests.get(cat_url)
+def get_one_picture(animal):
+    if what == 'Cat':
+        url=requests.get('https://aws.random.cat/meow').json()['file']
+    elif what == 'Dog':
+        url=requests.get('https://random.dog/woof.json').json()['url']
+    elif what == 'Fox':
+        url=requests.get('https://randomfox.ca/floof/').json()['link']
+    r=requests.get(url)
     img=Image.open(BytesIO(r.content))
     return img
 
