@@ -25,6 +25,8 @@ def main():
 
     if 'show_balloons' not in st.session_state:
         st.session_state.show_balloons=True
+    else:
+        st.session_state.show_balloons=False
 
     if st.session_state.show_balloons:
         st.balloons()
