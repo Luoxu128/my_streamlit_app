@@ -124,7 +124,7 @@ def get_one_picture(animal):
     elif animal == 'Dog':
         url=requests.get('https://random.dog/woof.json').json()['url']
     elif animal == 'Fox':
-        url=requests.get('https://randomfox.ca/floof/').json()['link']
+        url=requests.get('https://randomfox.ca/floof/').json()['image']
     r=requests.get(url)
     img=Image.open(BytesIO(r.content))
     return img
