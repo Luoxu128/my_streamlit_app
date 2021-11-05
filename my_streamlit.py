@@ -13,7 +13,7 @@ import streamlit as st
 
 
 st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
-st.slider.radio('选择图表','Line','Bar')
+st.slider.radio('选择图表',['Line','Bar'])
 st.title(':sunny:')
 st.markdown('Streamlit is **_really_ cool**.')
 st.caption('This is a string that explains something above.')
