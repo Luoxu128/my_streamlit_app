@@ -109,7 +109,7 @@ def main():
 
     empty_ele1=st.empty()
     animal=st.sidebar.selectbox('Select Animal You Like',['Cat','Dog','Fox'])
-    img=get_one_cat_picture(animal)
+    img=get_one_picture(animal)
     empty_ele1.image(img, caption='A Cat Picture',use_column_width=False)
 
     with st.expander("View Code"):
