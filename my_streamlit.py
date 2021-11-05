@@ -49,6 +49,7 @@ def main():
     empty_ele=st.empty()
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
+    st.markdown(f'### {chart} Chart')
     if chart == 'Line':
         empty_ele.line_chart(df)
 
