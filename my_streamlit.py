@@ -68,15 +68,15 @@ def plot_one_chart(chart,empty_ele):
         empty_ele.line_chart(df)
 
     elif chart == 'Bar':
-        empty_ele.area_chart(df)
+        empty_ele.bar_chart(df)
 
     elif chart == 'Area':
-        empty_ele.bar_chart(df)
+        empty_ele.area_chart(df)
 
     elif chart == 'Hist':
         arr = np.random.normal(1, 1, size=100)
         fig, ax = plt.subplots()
-        ax.hist(arr, bins=15)
+        ax.hist(arr, bins=10)
         empty_ele.pyplot(fig)
 
     elif chart == 'Altair':
