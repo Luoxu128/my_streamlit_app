@@ -19,15 +19,21 @@ import matplotlib.pyplot as plt
 
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
-    st.balloons()
     chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
-    color = st.sidebar.color_picker('Pick A Color You Like', '#00f900')
+    color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
+
+    if 'show_balloons' not in st.session_state:
+        st.session_state.show_balloons=True
+
+    if st.session_state.show_balloons:
+        st.balloons()
+
     if "celsius" not in st.session_state:
         # set the initial default value of the slider widget
         st.session_state.celsius = 50.0
 
-    st.sidebar.slider("Temperature in Celsius",min_value=-100.0,max_value=100.0,key="celsius")
+    st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
