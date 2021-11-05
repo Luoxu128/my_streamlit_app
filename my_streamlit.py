@@ -60,7 +60,6 @@ def main():
             code=f.read()
         st.code(code,language="python")
 
-@st.cache
 def plot_one_chart(chart,empty_ele):
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
