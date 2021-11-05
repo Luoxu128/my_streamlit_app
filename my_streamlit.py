@@ -39,13 +39,16 @@ def main():
         fig, ax = plt.subplots()
         ax.hist(arr, bins=20)
         empty_ele.pyplot(fig)
+
     elif chart == 'Altair':
         df = pd.DataFrame(np.random.randn(200, 3),columns=['a', 'b', 'c'])
         c = alt.Chart(df).mark_circle().encode(x='a', y='b', size='c', color='c', tooltip=['a', 'b', 'c'])
         empty_ele.altair_chart(c, use_container_width=True)
+
     elif chart == 'Map':
         df = pd.DataFrame(np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],columns=['lat', 'lon'])
         empty_ele.map(df)
+
     elif chart == 'Distplot':
         x1 = np.random.randn(200) - 2
         x2 = np.random.randn(200)
@@ -57,18 +60,21 @@ def main():
         fig = ff.create_distplot(hist_data, group_labels, bin_size=[.1, .25, .5])
         # Plot!
         empty_ele.plotly_chart(fig, use_container_width=True)
+
     elif chart == 'Pdk':
         df = pd.DataFrame(np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],columns=['lat', 'lon'])
         empty_ele.pydeck_chart(pdk.Deck(map_style='mapbox://styles/mapbox/light-v9',
             initial_view_state=pdk.ViewState(latitude=37.76,longitude=-122.4,zoom=11,pitch=50,),
             layers=[pdk.Layer('HexagonLayer',data=df,get_position='[lon, lat]',radius=200,elevation_scale=4,elevation_range=[0, 1000],pickable=True,extruded=True),
             pdk.Layer('ScatterplotLayer',data=df,get_position='[lon, lat]',get_color='[200, 30, 0, 160]',get_radius=200)]))
+
     elif chart == 'Bokeh':
         x = [1, 2, 3, 4, 5]
         y = [6, 7, 2, 4, 5]
         p = figure(title='simple line example',x_axis_label='x',y_axis_label='y')
         p.line(x, y, legend_label='Trend', line_width=2)
-        empty_ele.bokeh_chart(p, use_container_width=True)
+        st.bokeh_chart(p, use_container_width=True)
+
     elif chart == 'Graphviz':
         st.graphviz_chart('''
             digraph {
