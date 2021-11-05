@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import altair as alt
-from bokeh.plotting import figure
+from bokeh.plotting import figure,show
 import plotly.figure_factory as ff
 import matplotlib.pyplot as plt
 
@@ -73,7 +73,7 @@ def main():
         y = [6, 7, 2, 4, 5]
         p = figure(title='simple line example',x_axis_label='x',y_axis_label='y')
         p.line(x, y, legend_label='Trend', line_width=2)
-        st.bokeh_chart(p, use_container_width=True)
+        show(p)
 
     elif chart == 'Graphviz':
         st.graphviz_chart('''
