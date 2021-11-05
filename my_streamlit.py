@@ -111,7 +111,7 @@ def main():
     cat_url=requests.get('https://aws.random.cat/meow').json()['file']
     r=requests.get(cat_url)
     img=Image.open(BytesIO(r.content))
-    empty_ele1.image(img, caption='A Cat Picture')
+    empty_ele1.image(img, caption='A Cat Picture',use_column_width=False)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
