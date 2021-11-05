@@ -136,7 +136,7 @@ def plot_one_picture(animal,empty_ele1):
     r=requests.get(url)
     img=Image.open(BytesIO(r.content))
     empty_ele1.image(img, caption=f'A {animal} Picture',use_column_width=False)
-    return img
+    return None
 
 
 if __name__ == '__main__':
