@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
     st.balloons()
-    chart=st.sidebar.radio('选择图表',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Bokeh','Graphviz'])
+    chart=st.sidebar.radio('选择图表',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     empty_ele=st.empty()
     data=np.random.randn(20,3)
@@ -93,7 +93,7 @@ def main():
         code=f.read()
 
     with st.expander("view code detail"):
-        st.write(code)
+        st.code(code,language="python")
 
     if "celsius" not in st.session_state:
         # set the initial default value of the slider widget
