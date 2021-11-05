@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
     st.balloons()
-    chart=st.sidebar.radio('选择图表',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
+    chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     empty_ele=st.empty()
     data=np.random.randn(20,3)
@@ -69,7 +69,7 @@ def main():
             pdk.Layer('ScatterplotLayer',data=df,get_position='[lon, lat]',get_color='[200, 30, 0, 160]',get_radius=200)]))
 
     elif chart == 'Graphviz':
-        st.graphviz_chart('''
+        empty_ele.graphviz_chart('''
             digraph {
                 run -> intr
                 intr -> runbl
@@ -89,12 +89,6 @@ def main():
     color = st.color_picker('Pick A Color You Like', '#00f900')
     st.write('The current color is', color)
 
-    with open('my_streamlit.py','r') as f:
-        code=f.read()
-
-    with st.expander("view code detail"):
-        st.code(code,language="python")
-
     if "celsius" not in st.session_state:
         # set the initial default value of the slider widget
         st.session_state.celsius = 50.0
@@ -108,6 +102,11 @@ def main():
 
     # This will get the value of the slider widget
     st.write(st.session_state.celsius)
+
+    with st.expander("View Code"):
+        with open('my_streamlit.py','r') as f:
+            code=f.read()
+        st.code(code,language="python")
 
 if __name__ == '__main__':
     main()
