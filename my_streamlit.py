@@ -28,6 +28,7 @@ def main():
     t=st.sidebar.time_input('Time',date_time.time())
     st.sidebar.write(f'The current date time is {d} {t}')
     chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
+    st.markdown(f'### {chart} Chart')
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
 
@@ -49,7 +50,6 @@ def main():
     empty_ele=st.empty()
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
-    st.markdown(f'### {chart} Chart')
     if chart == 'Line':
         empty_ele.line_chart(df)
 
