@@ -10,6 +10,7 @@ import requests
 import pandas as pd
 import numpy as np
 import streamlit as st
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -29,7 +30,10 @@ def main():
         empty_ele.bar_chart(df)
 
     elif chart == 'Hist':
-        empty_ele.hist_chart(df)
+        arr = np.random.normal(1, 1, size=100)
+        fig, ax = plt.subplots()
+        ax.hist(arr, bins=20)
+        empty_ele.pyplot(fig)
 
     if "celsius" not in st.session_state:
         # set the initial default value of the slider widget
