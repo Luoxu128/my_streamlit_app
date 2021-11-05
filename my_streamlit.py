@@ -23,8 +23,9 @@ from io import BytesIO
 
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
-    d=st.sidebar.date_input('Date')
-    t=st.sidebar.time_input('Time')
+    date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
+    d=st.sidebar.date_input('Date',date_time.date())
+    t=st.sidebar.time_input('Time',date_time.time())
     st.sidebar.write(f'The current date time is {d} {t}')
     chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
