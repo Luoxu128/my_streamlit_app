@@ -29,7 +29,8 @@ def main():
     t=st.sidebar.time_input('Time',date_time.time())
     t=f'{t}'.split('.')[0]
     st.sidebar.write(f'The current date time is {d} {t}')
-    chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
+    chart=st.sidebar.selectbox('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
+    animal=st.sidebar.radio('Select Animal You Like',['Cat','Dog','Fox'])
     st.markdown(f'### {chart} Chart')
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
@@ -49,6 +50,18 @@ def main():
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
     empty_ele=st.empty()
+    plot_one_chart(chart,empty_ele)
+
+    empty_ele1=st.empty()
+    plot_one_picture(animal,empty_ele1)
+
+    with st.expander("View Code"):
+        with open('my_streamlit.py','r') as f:
+            code=f.read()
+        st.code(code,language="python")
+
+@st.cache
+def plot_one_chart(chart,empty_ele):
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
     if chart == 'Line':
@@ -112,18 +125,8 @@ def main():
                 sleep -> runmem
             }''')
 
-    empty_ele1=st.empty()
-    animal=st.sidebar.selectbox('Select Animal You Like',['Cat','Dog','Fox'])
-    img=get_one_picture(animal)
-    empty_ele1.image(img, caption=f'A {animal} Picture',use_column_width=False)
-
-    with st.expander("View Code"):
-        with open('my_streamlit.py','r') as f:
-            code=f.read()
-        st.code(code,language="python")
-
 @st.cache
-def get_one_picture(animal):
+def plot_one_picture(animal,empty_ele1):
     if animal == 'Cat':
         url=requests.get('https://aws.random.cat/meow').json()['file']
     elif animal == 'Dog':
@@ -132,6 +135,7 @@ def get_one_picture(animal):
         url=requests.get('https://randomfox.ca/floof/').json()['image']
     r=requests.get(url)
     img=Image.open(BytesIO(r.content))
+    empty_ele1.image(img, caption=f'A {animal} Picture',use_column_width=False)
     return img
 
 
