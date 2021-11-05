@@ -23,6 +23,9 @@ from io import BytesIO
 
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
+    d=st.sidebar.date_input('Date')
+    t=st.sidebar.time_input('Time')
+    st.sidebar.write(f'The current date time is {d} {t}')
     chart=st.sidebar.radio('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
@@ -31,7 +34,6 @@ def main():
         st.session_state.show_balloons=True
     else:
         st.session_state.show_balloons=False
-
     if st.session_state.show_balloons:
         st.balloons()
 
@@ -39,9 +41,6 @@ def main():
         # set the initial default value of the slider widget
         st.session_state.celsius = 50.0
 
-    d=st.sidebar.date_input('Date')
-    t=st.sidebar.time_input('Time')
-    st.sidebar.write(f'The current date time is {d} {t}')
     st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
