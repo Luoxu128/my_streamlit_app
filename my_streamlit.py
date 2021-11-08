@@ -139,7 +139,22 @@ def get_chart_data(chart,my_random):
                 me -> son
                 me -> daughter
             }'''
-        return viz
+        graph = graphviz.Digraph()
+        graph.edge('maternal grandmother', 'mother')
+        graph.edge('maternal grandfather', 'mother')
+        graph.edge('grandmother', 'father')
+        graph.edge('grandfather', 'father')
+        graph.edge('mother', 'brother')
+        graph.edge('father', 'brother')
+        graph.edge('mother', 'me')
+        graph.edge('father', 'me')
+        graph.edge('Sister-in-law', 'nephew')
+        graph.edge('brother', 'nephew')
+        graph.edge('where my wife?', 'son')
+        graph.edge('where my wife?', 'daughter')
+        graph.edge('me', 'son')
+        graph.edge('me', 'daughter')
+        return graph
 
 @st.cache(hash_funcs={MyRandom: my_hash_func})
 def get_pictures(my_random):
