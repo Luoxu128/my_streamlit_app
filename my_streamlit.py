@@ -58,7 +58,7 @@ def main():
     st.sidebar.write(st.session_state.celsius)
     # empty_ele=st.empty()
     df=get_chart_data(chart,st.session_state.my_random)
-    eval(f'st.{mapping[chart][0]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
+    eval(f'st.{mapping[chart]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
 
     col1,col2,col3=st.columns(3)
     cat_img,dog_img,fox_img=get_pictures(st.session_state.my_random)
