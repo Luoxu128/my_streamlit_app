@@ -76,7 +76,7 @@ def plot_one_chart(chart,empty_ele):
     elif chart == 'Hist':
         arr = np.random.normal(1, 1, size=100)
         fig, ax = plt.subplots()
-        ax.hist(arr, bins=10)
+        ax.hist(arr, bins=20)
         empty_ele.pyplot(fig)
 
     elif chart == 'Altair':
@@ -126,7 +126,7 @@ def plot_one_chart(chart,empty_ele):
             }''')
     return None
 
-@st.cache
+# @st.cache
 def get_one_picture(animal):
     if animal == 'Cat':
         url=requests.get('https://aws.random.cat/meow').json()['file']
