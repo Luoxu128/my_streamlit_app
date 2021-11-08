@@ -84,7 +84,7 @@ def my_hash_func(my_random):
     num = my_random.random_num
     return num
 
-@st.cache(hash_funcs={st.delta_generator.DeltaGenerator: my_hash_func,MyRandom: my_hash_func})
+@st.cache(hash_funcs={st.delta_generator.DeltaGenerator: my_hash_func,MyRandom: my_hash_func},allow_output_mutation=True)
 def get_chart_data(chart,my_random):
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
