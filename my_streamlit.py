@@ -33,8 +33,7 @@ def main():
     # 初始化配置
     if st.session_state.first_visit:
         st.session_state.random_index=random.choice(range(len(charts)))
-        st.session_state.random_num=random.randint(1,1000000)
-        st.session_state.my_random=MyRandom(st.session_state.random_num)
+        st.session_state.my_random=MyRandom(random.randint(1,1000000))
         st.balloons()
 
     date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
@@ -64,9 +63,10 @@ def main():
 
 
     col1,col2,col3=st.columns(3)
-    cat_img=get_one_picture('Cat',st.session_state.random_num)
-    dog_img=get_one_picture('Dog',st.session_state.random_num)
-    fox_img=get_one_picture('Fox',st.session_state.random_num)
+    # cat_img=get_one_picture('Cat',st.session_state.random_num)
+    # dog_img=get_one_picture('Dog',st.session_state.random_num)
+    # fox_img=get_one_picture('Fox',st.session_state.random_num)
+    cat_img,dog_img,fox_img=get_pictures(st.session_state.my_random)
     col1.image(cat_img, caption='A Cat Picture',use_column_width=True)
     col2.image(dog_img, caption='A Dog Picture',use_column_width=True)
     col3.image(fox_img, caption='A Fox Picture',use_column_width=True)
@@ -145,8 +145,19 @@ def get_chart_data(chart,my_random):
             }'''
         return viz
 
+@st.cache(hash_funcs={MyRandom: my_hash_func})
+def get_one_picture(my_random):
+    try:
+        cat_img=Image.open(BytesIO(requests.get(requests.get('https://aws.random.cat/meow').json()['file']).content))
+        dog_img=Image.open(BytesIO(requests.get(requests.get('https://random.dog/woof.json').json()['url']).content))
+        fox_img=Image.open(BytesIO(requests.get(requests.get('https://randomfox.ca/floof/').json()['image']).content))
+    except Exception as e:
+        if 'cannot identify image file' in str(e):
+            return get_one_picture(animal,random_num)
+    return cat_img,dog_img,fox_img
+
 @st.cache
-def get_one_picture(animal,random_num):
+def get_pictures(random_num):
     if animal == 'Cat':
         url=requests.get('https://aws.random.cat/meow').json()['file']
     elif animal == 'Dog':
