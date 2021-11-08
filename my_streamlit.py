@@ -70,7 +70,7 @@ def main():
         st.code(code,language="python")
 
 @st.cache
-def plot_one_chart(chart,empty_ele,st.session_state.random_num):
+def plot_one_chart(chart,empty_ele,random_num):
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
     if chart == 'Line':
