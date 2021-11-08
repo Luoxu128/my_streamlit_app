@@ -54,7 +54,7 @@ def main():
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
     empty_ele=st.empty()
-    plot_one_chart(chart,empty_ele)
+    plot_one_chart(chart,empty_ele,st.session_state.random_num)
 
     col1,col2,col3=st.columns(3)
     cat_img=get_one_picture('Cat',st.session_state.random_num)
@@ -69,7 +69,8 @@ def main():
             code=f.read()
         st.code(code,language="python")
 
-def plot_one_chart(chart,empty_ele):
+@st.cache
+def plot_one_chart(chart,empty_ele,st.session_state.random_num):
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
     if chart == 'Line':
