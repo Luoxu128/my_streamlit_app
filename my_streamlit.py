@@ -34,6 +34,7 @@ def main():
     if st.session_state.first_visit:
         st.session_state.random_index=random.choice(range(len(charts)))
         st.session_state.random_num=random.randint(1,1000000)
+        st.session_state.my_random=MyRandom(st.session_state.random_num)
         st.balloons()
 
     date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
@@ -54,8 +55,7 @@ def main():
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
     empty_ele=st.empty()
-    my_random=MyRandom(st.session_state.random_num)
-    plot_one_chart(chart,empty_ele,my_random)
+    plot_one_chart(chart,empty_ele,st.session_state.my_random)
 
     col1,col2,col3=st.columns(3)
     cat_img=get_one_picture('Cat',st.session_state.random_num)
