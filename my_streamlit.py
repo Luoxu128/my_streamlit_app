@@ -55,9 +55,9 @@ def main():
     cat_img=get_one_picture('Cat')
     dog_img=get_one_picture('Dog')
     fox_img=get_one_picture('Fox')
-    col1.image(cat_img, caption='A Cat Picture',use_column_width=False)
-    col2.image(dog_img, caption='A Dog Picture',use_column_width=False)
-    col3.image(fox_img, caption='A Fox Picture',use_column_width=False)
+    col1.image(cat_img, caption='A Cat Picture',use_column_width=True)
+    col2.image(dog_img, caption='A Dog Picture',use_column_width=True)
+    col3.image(fox_img, caption='A Fox Picture',use_column_width=True)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
