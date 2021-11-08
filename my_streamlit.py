@@ -30,7 +30,6 @@ def main():
     t=f'{t}'.split('.')[0]
     st.sidebar.write(f'The current date time is {d} {t}')
     chart=st.sidebar.selectbox('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
-    animal=st.sidebar.radio('Select Animal You Like',['Cat','Dog','Fox'])
     st.markdown(f'### {chart} Chart')
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
@@ -52,9 +51,13 @@ def main():
     empty_ele=st.empty()
     plot_one_chart(chart,empty_ele)
 
-    empty_ele1=st.empty()
-    img=get_one_picture(animal)
-    empty_ele1.image(img, caption=f'A {animal} Picture',use_column_width=False)
+    col1,col2,col3=st.columns(3)
+    cat_img=get_one_picture('Cat')
+    dog_img=get_one_picture('Dog')
+    fox_img=get_one_picture('Fox')
+    col1.image(cat_img, caption='A Cat Picture',use_column_width=False)
+    col2.image(dog_img, caption='A Dog Picture',use_column_width=False)
+    col3.image(fox_img, caption='A Fox Picture',use_column_width=False)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
