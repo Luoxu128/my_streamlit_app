@@ -122,38 +122,21 @@ def get_chart_data(chart,my_random):
         return args
 
     elif chart == 'Graphviz':
-        viz='''
-            digraph {
-                maternal grandmother -> mother
-                maternal grandfather -> mother
-                grandmother -> father
-                grandfather -> father
-                mother -> brother
-                father -> brother
-                mother -> me
-                father -> me
-                Sister-in-law -> nephew
-                brother -> nephew
-                where my wife? -> son
-                where my wife? -> daughter
-                me -> son
-                me -> daughter
-            }'''
         graph = graphviz.Digraph()
-        graph.edge('maternal grandmother', 'mother')
         graph.edge('maternal grandfather', 'mother')
-        graph.edge('grandmother', 'father')
+        graph.edge('maternal grandmother', 'mother')
         graph.edge('grandfather', 'father')
-        graph.edge('mother', 'brother')
+        graph.edge('grandmother', 'father')
         graph.edge('father', 'brother')
-        graph.edge('mother', 'me')
+        graph.edge('mother', 'brother')
         graph.edge('father', 'me')
-        graph.edge('Sister-in-law', 'nephew')
+        graph.edge('mother', 'me')
         graph.edge('brother', 'nephew')
-        graph.edge('where my wife?', 'son')
-        graph.edge('where my wife?', 'daughter')
+        graph.edge('Sister-in-law', 'nephew')
         graph.edge('me', 'son')
         graph.edge('me', 'daughter')
+        graph.edge('where my wife?', 'son')
+        graph.edge('where my wife?', 'daughter')
         return graph
 
 @st.cache(hash_funcs={MyRandom: my_hash_func})
