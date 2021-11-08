@@ -25,14 +25,17 @@ from io import BytesIO
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
-    charts=['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz']
+    charts_mapping={
+        'Line':'line_chart','Bar':'bar_chart','Area':'area_chart','Hist':'pyplot','Altair':'altair_chart',
+        'Map':'map','Distplot':'plotly_chart','Pdk':'pydeck_chart','Graphviz':'graphviz_chart'
+    }
     if 'first_visit' not in st.session_state:
         st.session_state.first_visit=True
     else:
         st.session_state.first_visit=False
     # 初始化配置
     if st.session_state.first_visit:
-        st.session_state.random_index=random.choice(range(len(charts)))
+        st.session_state.random_index=random.choice(range(len(charts_mapping)))
         st.session_state.my_random=MyRandom(random.randint(1,1000000))
         st.balloons()
 
@@ -41,7 +44,7 @@ def main():
     t=st.sidebar.time_input('Time',date_time.time())
     t=f'{t}'.split('.')[0]
     st.sidebar.write(f'The current date time is {d} {t}')
-    chart=st.sidebar.selectbox('Select Chart You Like',charts,index=st.session_state.random_index)
+    chart=st.sidebar.selectbox('Select Chart You Like',charts_mapping.values(),index=st.session_state.random_index)
     st.markdown(f'### {chart} Chart')
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
@@ -55,16 +58,9 @@ def main():
     st.sidebar.write(st.session_state.celsius)
     # empty_ele=st.empty()
     df=get_chart_data(chart,st.session_state.my_random)
-    mapping={
-        'Line':['line_chart'],'Bar':['bar_chart'],'Area':['area_chart'],'Hist':['pyplot'],'Altair':['altair_chart'],
-        'Map':['map'],'Distplot':['plotly_chart'],'Pdk':['pydeck_chart'],'Graphviz':['graphviz_chart']
-    }
     eval(f'st.{mapping[chart][0]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
 
     col1,col2,col3=st.columns(3)
-    # cat_img=get_one_picture('Cat',st.session_state.random_num)
-    # dog_img=get_one_picture('Dog',st.session_state.random_num)
-    # fox_img=get_one_picture('Fox',st.session_state.random_num)
     cat_img,dog_img,fox_img=get_pictures(st.session_state.my_random)
     col1.image(cat_img, caption='A Cat Picture',use_column_width=True)
     col2.image(dog_img, caption='A Dog Picture',use_column_width=True)
@@ -152,24 +148,8 @@ def get_pictures(my_random):
         fox_img=Image.open(BytesIO(requests.get(requests.get('https://randomfox.ca/floof/').json()['image']).content))
     except Exception as e:
         if 'cannot identify image file' in str(e):
-            return get_one_picture(animal,random_num)
+            return get_one_picture(my_random)
     return cat_img,dog_img,fox_img
-
-@st.cache
-def get_one_picture(random_num):
-    if animal == 'Cat':
-        url=requests.get('https://aws.random.cat/meow').json()['file']
-    elif animal == 'Dog':
-        url=requests.get('https://random.dog/woof.json').json()['url']
-    elif animal == 'Fox':
-        url=requests.get('https://randomfox.ca/floof/').json()['image']
-    try:
-        r=requests.get(url)
-        img=Image.open(BytesIO(r.content))
-    except Exception as e:
-        if 'cannot identify image file' in str(e):
-            return get_one_picture(animal,random_num)
-    return img
 
 @st.cache
 def get_city_mapping():
