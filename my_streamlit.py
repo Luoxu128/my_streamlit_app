@@ -84,38 +84,27 @@ def my_hash_func(my_random):
     num = my_random.random_num
     return num
 
-@st.cache(hash_funcs={st.delta_generator.DeltaGenerator: my_hash_func,MyRandom: my_hash_func},allow_output_mutation=True)
+@st.cache(hash_funcs={MyRandom: my_hash_func},allow_output_mutation=True)
 def get_chart_data(chart,my_random):
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
     if chart in ['Line','Bar','Area']:
         return df
-    # if chart == 'Line':
-    #     st.line_chart(df)
-
-    # elif chart == 'Bar':
-    #     st.bar_chart(df)
-
-    # elif chart == 'Area':
-    #     st.area_chart(df)
 
     elif chart == 'Hist':
         arr = np.random.normal(1, 1, size=100)
         fig, ax = plt.subplots()
         ax.hist(arr, bins=20)
         return fig
-        # st.pyplot(fig)
 
     elif chart == 'Altair':
         df = pd.DataFrame(np.random.randn(200, 3),columns=['a', 'b', 'c'])
         c = alt.Chart(df).mark_circle().encode(x='a', y='b', size='c', color='c', tooltip=['a', 'b', 'c'])
         return c
-        # st.altair_chart(c, use_container_width=True)
 
     elif chart == 'Map':
         df = pd.DataFrame(np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],columns=['lat', 'lon'])
         return df
-        # st.map(df)
 
     elif chart == 'Distplot':
         x1 = np.random.randn(200) - 2
@@ -128,7 +117,6 @@ def get_chart_data(chart,my_random):
         fig = ff.create_distplot(hist_data, group_labels, bin_size=[.1, .25, .5])
         # Plot!
         return fig
-        # st.plotly_chart(fig, use_container_width=True)
 
     elif chart == 'Pdk':
         df = pd.DataFrame(np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],columns=['lat', 'lon'])
@@ -136,7 +124,6 @@ def get_chart_data(chart,my_random):
             initial_view_state=pdk.ViewState(latitude=37.76,longitude=-122.4,zoom=11,pitch=50,),
             layers=[pdk.Layer('HexagonLayer',data=df,get_position='[lon, lat]',radius=200,elevation_scale=4,elevation_range=[0, 1000],pickable=True,extruded=True),
             pdk.Layer('ScatterplotLayer',data=df,get_position='[lon, lat]',get_color='[200, 30, 0, 160]',get_radius=200)])
-        # st.pydeck_chart(args)
         return args
 
     elif chart == 'Graphviz':
@@ -157,7 +144,6 @@ def get_chart_data(chart,my_random):
                 sleep -> runmem
             }'''
         return viz
-        # st.graphviz_chart(viz)
 
 @st.cache
 def get_one_picture(animal,random_num):
@@ -167,8 +153,12 @@ def get_one_picture(animal,random_num):
         url=requests.get('https://random.dog/woof.json').json()['url']
     elif animal == 'Fox':
         url=requests.get('https://randomfox.ca/floof/').json()['image']
-    r=requests.get(url)
-    img=Image.open(BytesIO(r.content))
+    try:
+        r=requests.get(url)
+        img=Image.open(BytesIO(r.content))
+    except Exception as e:
+        if 'cannot identify image file' in str(e):
+            return get_one_picture(animal,random_num)
     return img
 
 @st.cache
