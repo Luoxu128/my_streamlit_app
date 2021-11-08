@@ -57,10 +57,10 @@ def main():
     empty_ele=st.empty()
     df=get_chart_data(chart,st.session_state.my_random)
     mapping={
-        'Line':['line_chart'],'Bar':['bar_chart'],'Area':['area_chart'],'Hist':['pyplot'],'Altair':['altair_chart',{'use_container_width':True}],
-        'Map':['map'],'Distplot':['plotly_chart',{'use_container_width':True}],'Pdk':['pydeck_chart'],'Graphviz':['graphviz_chart']
+        'Line':['line_chart'],'Bar':['bar_chart'],'Area':['area_chart'],'Hist':['pyplot'],'Altair':['altair_chart'],
+        'Map':['map'],'Distplot':['plotly_chart'],'Pdk':['pydeck_chart'],'Graphviz':['graphviz_chart']
     }
-    eval(f'empty_ele.{mapping[chart][0]}(df,{",".join([f"{key}={value}" for key,value in mapping[chart][1].items() if len(mapping[chart])>1])})')
+    eval(f'empty_ele.{mapping[chart][0]}(df{",use_container_width=True" if chart in ["Distplot","altair_chart"] else ""})')
 
 
     col1,col2,col3=st.columns(3)
