@@ -44,7 +44,7 @@ def main():
     t=st.sidebar.time_input('Time',date_time.time())
     t=f'{t}'.split('.')[0]
     st.sidebar.write(f'The current date time is {d} {t}')
-    chart=st.sidebar.selectbox('Select Chart You Like',charts_mapping.values(),index=st.session_state.random_index)
+    chart=st.sidebar.selectbox('Select Chart You Like',charts_mapping.keys(),index=st.session_state.random_index)
     st.markdown(f'### {chart} Chart')
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
