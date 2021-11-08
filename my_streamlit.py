@@ -4,6 +4,7 @@ import json
 import time
 import datetime
 import traceback
+import random
 from copy import deepcopy
 
 import streamlit as st
@@ -29,16 +30,19 @@ def main():
     t=st.sidebar.time_input('Time',date_time.time())
     t=f'{t}'.split('.')[0]
     st.sidebar.write(f'The current date time is {d} {t}')
-    chart=st.sidebar.selectbox('Select Chart You Like',['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz'])
+    charts=['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz']
+    chart=st.sidebar.selectbox('Select Chart You Like',charts,random.choice(charts))
     st.markdown(f'### {chart} Chart')
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
 
-    if 'show_balloons' not in st.session_state:
-        st.session_state.show_balloons=True
+    if 'first_visit' not in st.session_state:
+        st.session_state.first_visit=True
     else:
-        st.session_state.show_balloons=False
-    if st.session_state.show_balloons:
+        st.session_state.first_visit=False
+    # 初始化配置
+    if st.session_state.first_visit:
+        random_num=random.randint(1,1000000)
         st.balloons()
 
     if "celsius" not in st.session_state:
@@ -52,9 +56,9 @@ def main():
     plot_one_chart(chart,empty_ele)
 
     col1,col2,col3=st.columns(3)
-    cat_img=get_one_picture('Cat')
-    dog_img=get_one_picture('Dog')
-    fox_img=get_one_picture('Fox')
+    cat_img=get_one_picture('Cat',random_num)
+    dog_img=get_one_picture('Dog',random_num)
+    fox_img=get_one_picture('Fox',random_num)
     col1.image(cat_img, caption='A Cat Picture',use_column_width=True)
     col2.image(dog_img, caption='A Dog Picture',use_column_width=True)
     col3.image(fox_img, caption='A Fox Picture',use_column_width=True)
@@ -129,8 +133,8 @@ def plot_one_chart(chart,empty_ele):
             }''')
     return None
 
-# @st.cache
-def get_one_picture(animal):
+@st.cache
+def get_one_picture(animal,random_num):
     if animal == 'Cat':
         url=requests.get('https://aws.random.cat/meow').json()['file']
     elif animal == 'Dog':
@@ -140,6 +144,20 @@ def get_one_picture(animal):
     r=requests.get(url)
     img=Image.open(BytesIO(r.content))
     return img
+
+@st.cache
+def get_city_mapping():
+    url='https://h5ctywhr.api.moji.com/weatherthird/cityList'
+    r=requests.get(url)
+    data=r.json()
+    city_mapping=dict()
+    for i in data.values():
+        for each in i:
+            city_mapping[each['cityId']]=each['name']
+
+    return city_mapping
+
+
 
 
 if __name__ == '__main__':
