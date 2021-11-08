@@ -74,11 +74,11 @@ class MyRandom:
     def __init__(self,num):
         self.random_num=num
 
-def my_hash_func(chart,empty_ele,my_random):
+def my_hash_func(my_random):
     num = my_random.random_num
-    return 1,1,num
+    return num
 
-@st.cache(hash_funcs={st.delta_generator.DeltaGenerator:my_hash_func,MyRandom: my_hash_func})
+@st.cache(hash_funcs={MyRandom: my_hash_func})
 def plot_one_chart(chart,empty_ele,my_random):
     data=np.random.randn(20,3)
     df=pd.DataFrame(data,columns=['a', 'b', 'c'])
