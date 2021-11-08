@@ -25,25 +25,26 @@ from io import BytesIO
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
     st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
-    date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
-    d=st.sidebar.date_input('Date',date_time.date())
-    t=st.sidebar.time_input('Time',date_time.time())
-    t=f'{t}'.split('.')[0]
-    st.sidebar.write(f'The current date time is {d} {t}')
     charts=['Line','Bar','Area','Hist','Altair','Map','Distplot','Pdk','Graphviz']
-    chart=st.sidebar.selectbox('Select Chart You Like',charts,index=random.choice(range(len(charts))))
-    st.markdown(f'### {chart} Chart')
-    color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
-    st.sidebar.write('The current color is', color)
-
     if 'first_visit' not in st.session_state:
         st.session_state.first_visit=True
     else:
         st.session_state.first_visit=False
     # 初始化配置
     if st.session_state.first_visit:
+        st.session_state.random_index=random.choice(range(len(charts)))
         st.session_state.random_num=random.randint(1,1000000)
         st.balloons()
+
+    date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
+    d=st.sidebar.date_input('Date',date_time.date())
+    t=st.sidebar.time_input('Time',date_time.time())
+    t=f'{t}'.split('.')[0]
+    st.sidebar.write(f'The current date time is {d} {t}')
+    chart=st.sidebar.selectbox('Select Chart You Like',charts,index=st.session_state.random_index)
+    st.markdown(f'### {chart} Chart')
+    color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
+    st.sidebar.write('The current color is', color)
 
     if "celsius" not in st.session_state:
         # set the initial default value of the slider widget
