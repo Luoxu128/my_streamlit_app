@@ -76,7 +76,7 @@ class MyRandom:
 
 def my_hash_func(chart,empty_ele,my_random):
     num = my_random.random_num
-    return (chart,empty_ele,num)
+    return (chart,None,num)
 
 @st.cache(hash_funcs={str:my_hash_func,st.delta_generator.DeltaGenerator:my_hash_func,MyRandom: my_hash_func})
 def plot_one_chart(chart,empty_ele,my_random):
