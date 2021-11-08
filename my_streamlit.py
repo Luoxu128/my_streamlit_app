@@ -54,13 +54,13 @@ def main():
     st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
-    empty_ele=st.empty()
+    # empty_ele=st.empty()
     df=get_chart_data(chart,st.session_state.my_random)
     mapping={
         'Line':['line_chart'],'Bar':['bar_chart'],'Area':['area_chart'],'Hist':['pyplot'],'Altair':['altair_chart'],
         'Map':['map'],'Distplot':['plotly_chart'],'Pdk':['pydeck_chart'],'Graphviz':['graphviz_chart']
     }
-    eval(f'empty_ele.{mapping[chart][0]}(df{",use_container_width=True" if chart in ["Distplot","altair_chart"] else ""})')
+    eval(f'st.{mapping[chart][0]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
 
 
     col1,col2,col3=st.columns(3)
