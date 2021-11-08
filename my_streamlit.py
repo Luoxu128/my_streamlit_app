@@ -42,7 +42,7 @@ def main():
         st.session_state.first_visit=False
     # 初始化配置
     if st.session_state.first_visit:
-        random_num=random.randint(1,1000000)
+        st.session_state.random_num=random.randint(1,1000000)
         st.balloons()
 
     if "celsius" not in st.session_state:
@@ -56,9 +56,9 @@ def main():
     plot_one_chart(chart,empty_ele)
 
     col1,col2,col3=st.columns(3)
-    cat_img=get_one_picture('Cat',random_num)
-    dog_img=get_one_picture('Dog',random_num)
-    fox_img=get_one_picture('Fox',random_num)
+    cat_img=get_one_picture('Cat',st.session_state.random_num)
+    dog_img=get_one_picture('Dog',st.session_state.random_num)
+    fox_img=get_one_picture('Fox',st.session_state.random_num)
     col1.image(cat_img, caption='A Cat Picture',use_column_width=True)
     col2.image(dog_img, caption='A Dog Picture',use_column_width=True)
     col3.image(fox_img, caption='A Fox Picture',use_column_width=True)
