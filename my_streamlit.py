@@ -124,19 +124,20 @@ def get_chart_data(chart,my_random):
     elif chart == 'Graphviz':
         viz='''
             digraph {
-                run -> intr
-                intr -> runbl
-                runbl -> run
-                run -> kernel
-                kernel -> zombie
-                kernel -> sleep
-                kernel -> runmem
-                sleep -> swap
-                swap -> runswap
-                runswap -> new
-                runswap -> runmem
-                new -> runmem
-                sleep -> runmem
+                maternal grandmother -> mother
+                maternal grandfather -> mother
+                grandmother -> father
+                grandfather -> father
+                mother -> brother
+                father -> brother
+                mother -> me
+                father -> me
+                Sister-in-law -> nephew
+                brother -> nephew
+                where my wife? -> son
+                where my wife? -> daughter
+                me -> son
+                me -> daughter
             }'''
         return viz
 
