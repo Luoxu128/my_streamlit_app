@@ -76,7 +76,7 @@ class MyRandom:
 
 def my_hash_func(chart,empty_ele,my_random):
     num = my_random.random_num
-    return (chart,None,num)
+    return num
 
 @st.cache(hash_funcs={str:my_hash_func,st.delta_generator.DeltaGenerator:my_hash_func,MyRandom: my_hash_func})
 def plot_one_chart(chart,empty_ele,my_random):
@@ -142,7 +142,7 @@ def plot_one_chart(chart,empty_ele,my_random):
                 new -> runmem
                 sleep -> runmem
             }''')
-    return None
+    return None,None,None
 
 @st.cache
 def get_one_picture(animal,random_num):
