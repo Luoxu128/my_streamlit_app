@@ -61,7 +61,6 @@ def main():
     }
     eval(f'st.{mapping[chart][0]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
 
-
     col1,col2,col3=st.columns(3)
     # cat_img=get_one_picture('Cat',st.session_state.random_num)
     # dog_img=get_one_picture('Dog',st.session_state.random_num)
@@ -146,7 +145,7 @@ def get_chart_data(chart,my_random):
         return viz
 
 @st.cache(hash_funcs={MyRandom: my_hash_func})
-def get_one_picture(my_random):
+def get_pictures(my_random):
     try:
         cat_img=Image.open(BytesIO(requests.get(requests.get('https://aws.random.cat/meow').json()['file']).content))
         dog_img=Image.open(BytesIO(requests.get(requests.get('https://random.dog/woof.json').json()['url']).content))
@@ -157,7 +156,7 @@ def get_one_picture(my_random):
     return cat_img,dog_img,fox_img
 
 @st.cache
-def get_pictures(random_num):
+def get_one_picture(random_num):
     if animal == 'Cat':
         url=requests.get('https://aws.random.cat/meow').json()['file']
     elif animal == 'Dog':
