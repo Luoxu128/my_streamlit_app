@@ -181,11 +181,11 @@ def get_city_mapping():
     r=requests.get(url)
     data=r.json()
     city_mapping=dict()
-    for i in data.values():
+    for idx,i in enumerate(data.values()):
         for each in i:
             city_mapping[each['name']]=each['cityId']
             if each['name'] == '广州市':
-                guangzhou=i
+                guangzhou=idx
 
     return city_mapping,guangzhou
 
