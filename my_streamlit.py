@@ -61,7 +61,7 @@ def main():
 
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
-        forecastToday,forecastHours,df_forecastDays=get_city_weather(st.session_state.city_mapping[city])
+        forecastToday,df_forecastHours,df_forecastDays=get_city_weather(st.session_state.city_mapping[city])
         col1,col2,col3,col4,col5,col6=st.columns(6)
         col1.metric('Weather',forecastToday['weather'])
         col2.metric('Temperature',forecastToday['temp'])
@@ -69,7 +69,7 @@ def main():
         col4.metric('Humidity',forecastToday['humidity'])
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
-        st.table(forecastHours)
+        st.table(df_forecastHours)
         st.table(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
@@ -230,7 +230,7 @@ def get_city_weather(cityId):
         tmp['WindNight']=f"{i['windDirNight']}{i['windLevelNight']}级"
         forecastDays.append(tmp)
     df_forecastDays=pd.DataFrame(forecastDays).set_index('PredictDate')
-    return forecastToday,forecastHours,df_forecastDays
+    return forecastToday,df_forecastHours,df_forecastDays
 
 
 if __name__ == '__main__':
