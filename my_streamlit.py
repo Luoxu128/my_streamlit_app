@@ -99,7 +99,12 @@ def main():
             code=f.read()
         st.code(code,language="python")
 
-    html='<script>var audio = document.getElementById("audio");audio.play();</script>'
+    html='''<script>
+    function(){
+        var audio = document.getElementById("audio");
+        audio.play();
+    }()
+    </script>'''
     st.markdown(html,unsafe_allow_html=True)
 
 class MyRandom:
