@@ -59,6 +59,7 @@ def main():
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
 
+    st.markdown(f'### {city} Weather')
     weather=get_city_weather(st.session_state.city_mapping[city])
     col1,col2,col3,col4,col5,col6=st.columns(6)
     col1.metric('天气',weather['weather'])
@@ -186,13 +187,12 @@ def get_city_weather(cityId):
     r=requests.post(url,headers=headers,json=data)
     result=r.json()
     res=dict(
-        # aqi=f"{result['aqi']['value']}{result['aqi']['desc']}",
         humidity=f"{result['condition']['humidity']}%",
         temp=f"{result['condition']['temp']}°C",
         realFeel=f"{result['condition']['realFeel']}°C",
         weather=result['condition']['weather'],
         wind=f"{result['condition']['windDir']}{result['condition']['windLevel']}级",
-        updateTime=datetime.datetime.fromtimestamp(result['condition']['updateTime']).strftime('%H:%M:%S')
+        updateTime=(datetime.datetime.fromtimestamp(result['condition']['updateTime'])+datetime.timedelta(hours=8)).strftime('%H:%M:%S')
     )
     return res
 
