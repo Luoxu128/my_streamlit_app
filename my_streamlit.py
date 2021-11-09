@@ -23,7 +23,7 @@ from io import BytesIO
 
 
 def main():
-    st.set_page_config(page_title="七里香还是稻香",page_icon=":shark:",layout="wide",initial_sidebar_state="expanded")
+    st.set_page_config(page_title="七里香还是稻香",page_icon=":j:",layout="wide",initial_sidebar_state="expanded")
     st.title('七里香还是稻香:heart:')
     st.markdown('<br>',unsafe_allow_html=True)
     st.markdown('<br>',unsafe_allow_html=True)
@@ -61,8 +61,8 @@ def main():
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
 
-    music=st.sidebar.radio('Select Music You Like',['七里香','稻香'])
-    st.sidebar.write(f'正在播放 {music}-周杰伦 :music:')
+    music=st.sidebar.radio('Select Music You Like',['七里香','稻香'],index=random.choice(range(2)))
+    st.sidebar.write(f'正在播放 {music}-周杰伦 :musical_note:')
     audio_file = open(f'music/{music}-周杰伦.mp3', 'rb')
     audio_bytes = audio_file.read()
     audio_file.close()
