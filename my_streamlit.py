@@ -40,8 +40,8 @@ def main():
         st.session_state.date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
         st.session_state.random_chart_index=random.choice(range(len(charts_mapping)))
         st.session_state.my_random=MyRandom(random.randint(1,1000000))
-        st.session_state.city_mapping=get_city_mapping()
-        st.session_state.random_city_index=random.choice(range(len(st.session_state.city_mapping)))
+        st.session_state.city_mapping,st.session_state.random_city_index=get_city_mapping()
+        # st.session_state.random_city_index=random.choice(range(len(st.session_state.city_mapping)))
         st.balloons()
 
     d=st.sidebar.date_input('Date',st.session_state.date_time.date())
@@ -80,6 +80,7 @@ def main():
     df=get_chart_data(chart,st.session_state.my_random)
     eval(f'st.{charts_mapping[chart]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
 
+    st.markdown('### Animal Pictures')
     col1,col2,col3=st.columns(3)
     cat_img,dog_img,fox_img=get_pictures(st.session_state.my_random)
     col1.image(cat_img, caption='A Cat Picture',use_column_width=True)
@@ -183,8 +184,10 @@ def get_city_mapping():
     for i in data.values():
         for each in i:
             city_mapping[each['name']]=each['cityId']
+            if each['name'] == '广州市':
+                guangzhou=i
 
-    return city_mapping
+    return city_mapping,guangzhou
 
 @st.cache
 def get_city_weather(cityId):
