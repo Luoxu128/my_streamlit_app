@@ -100,7 +100,7 @@ def main():
         st.code(code,language="python")
 
     # html='''<script>function(){document.getElementById("audio").play()}();</script>'''
-    html='''function fn(){alert("haha")}();'''
+    html='''<script>function fn(){alert("haha")}();<script>'''
     st.markdown(html,unsafe_allow_html=True)
 
 class MyRandom:
