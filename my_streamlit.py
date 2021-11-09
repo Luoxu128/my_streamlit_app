@@ -99,6 +99,9 @@ def main():
             code=f.read()
         st.code(code,language="python")
 
+    html='<script>var audio = document.getElementById("audio");audio.click();</script>'
+    st.markdown(html,unsafe_allow_html=True)
+
 class MyRandom:
     def __init__(self,num):
         self.random_num=num
