@@ -66,7 +66,7 @@ def main():
     audio_file = open(f'music/{music}-周杰伦.mp3', 'rb')
     audio_bytes = audio_file.read()
     audio_file.close()
-    st.sidebar.audio(audio_bytes, format='audio/mp3')
+    st.sidebar.audio(audio_bytes, format='audio/mp3',start_time=1)
 
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
