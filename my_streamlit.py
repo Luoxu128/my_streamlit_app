@@ -60,6 +60,10 @@ def main():
     st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
+    audio_file = open('music/稻香_周杰伦_128K.mp3', 'rb')
+    audio_bytes = audio_file.read()
+    audio_file.close()
+    st.sidebar.audio(audio_bytes, format='audio/mp3')
 
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
