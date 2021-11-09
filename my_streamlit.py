@@ -59,15 +59,18 @@ def main():
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
 
-    st.markdown(f'### {city} 天气预报')
-    weather=get_city_weather(st.session_state.city_mapping[city])
-    col1,col2,col3,col4,col5,col6=st.columns(6)
-    col1.metric('',weather['weather'])
-    col2.metric('Temperature',weather['temp'])
-    col3.metric('Body Temperature',weather['realFeel'])
-    col4.metric('Humidity',weather['humidity'])
-    col5.metric('',weather['wind'])
-    col6.metric('UpdateTime',weather['updateTime'])
+    weather2emoji={'晴':':sunny:','多云':':cloud:'}
+
+    with st.container():
+        st.markdown(f'### {city} Weather Forecast')
+        weather=get_city_weather(st.session_state.city_mapping[city])
+        col1,col2,col3,col4,col5,col6=st.columns(6)
+        col1.metric('Weather',weather2emoji[weather['weather']] if weather['weather'] in weather2emoji else weather['weather'])
+        col2.metric('Temperature',weather['temp'])
+        col3.metric('Body Temperature',weather['realFeel'])
+        col4.metric('Humidity',weather['humidity'])
+        col5.metric('Wind',weather['wind'])
+        col6.metric('UpdateTime',weather['updateTime'])
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
