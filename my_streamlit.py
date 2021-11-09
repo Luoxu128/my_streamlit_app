@@ -61,14 +61,15 @@ def main():
 
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
-        weather=get_city_weather(st.session_state.city_mapping[city])
+        forecastToday,df_forecastDays=get_city_weather(st.session_state.city_mapping[city])
         col1,col2,col3,col4,col5,col6=st.columns(6)
-        col1.metric('Weather',weather['weather'])
-        col2.metric('Temperature',weather['temp'])
-        col3.metric('Body Temperature',weather['realFeel'])
-        col4.metric('Humidity',weather['humidity'])
-        col5.metric('Wind',weather['wind'])
-        col6.metric('UpdateTime',weather['updateTime'])
+        col1.metric('Weather',forecastToday['weather'])
+        col2.metric('Temperature',forecastToday['temp'])
+        col3.metric('Body Temperature',forecastToday['realFeel'])
+        col4.metric('Humidity',forecastToday['humidity'])
+        col5.metric('Wind',forecastToday['wind'])
+        col6.metric('UpdateTime',forecastToday['updateTime'])
+        st.dataframe(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
@@ -187,7 +188,7 @@ def get_city_weather(cityId):
     data={"cityId":cityId,"cityType":0}
     r=requests.post(url,headers=headers,json=data)
     result=r.json()
-    res=dict(
+    forecastToday=dict(
         humidity=f"{result['condition']['humidity']}%",
         temp=f"{result['condition']['temp']}°C",
         realFeel=f"{result['condition']['realFeel']}°C",
@@ -195,7 +196,19 @@ def get_city_weather(cityId):
         wind=f"{result['condition']['windDir']}{result['condition']['windLevel']}级",
         updateTime=(datetime.datetime.fromtimestamp(result['condition']['updateTime'])+datetime.timedelta(hours=8)).strftime('%H:%M:%S')
     )
-    return res
+    forecastDays=[]
+    for i in result['forecastDays']['forecastDay']:
+        tmp={}
+        tmp['PredictDate']=(datetime.datetime.fromtimestamp(i['predictDate'])+datetime.timedelta(hours=8)).strftime('%m/%d')
+        tmp['Temperature']=f"{i['tempLow']}~{i['tempHigh']}°C"
+        tmp['Humidity']=f"{i['humidity']}%"
+        tmp['WeatherDay']=i['weatherDay']
+        tmp['WeatherNight']=i['weatherNight']
+        tmp['WindDay']=f"{i['windDirDay']}{i['windLevelDay']}级"
+        tmp['WindNight']=f"{i['windDirNight']}{i['windLevelNight']}级"
+        forecastDays.append(tmp)
+    df_forecastDays=pd.DataFrame(forecastDays).set_index('PredictDate')
+    return forecastToday,df_forecastDays
 
 
 if __name__ == '__main__':
