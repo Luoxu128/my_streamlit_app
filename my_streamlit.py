@@ -23,7 +23,7 @@ from io import BytesIO
 
 
 def main():
-    st.set_page_config(page_title="七里香还是稻香",page_icon=":j:",layout="wide",initial_sidebar_state="expanded")
+    st.set_page_config(page_title="七里香还是稻香",page_icon=":rainbow:",layout="wide",initial_sidebar_state="expanded")
     st.title('七里香还是稻香:heart:')
     st.markdown('<br>',unsafe_allow_html=True)
     st.markdown('<br>',unsafe_allow_html=True)
@@ -44,6 +44,13 @@ def main():
         # st.session_state.random_city_index=random.choice(range(len(st.session_state.city_mapping)))
         st.balloons()
 
+    music=st.sidebar.radio('Select Music You Like',['七里香','稻香'],index=random.choice(range(2)))
+    st.sidebar.write(f'正在播放 {music}-周杰伦 :musical_note:')
+    audio_file = open(f'music/{music}-周杰伦.mp3', 'rb')
+    audio_bytes = audio_file.read()
+    audio_file.close()
+    st.sidebar.audio(audio_bytes, format='audio/mp3')
+
     d=st.sidebar.date_input('Date',st.session_state.date_time.date())
     t=st.sidebar.time_input('Time',st.session_state.date_time.time())
     t=f'{t}'.split('.')[0]
@@ -60,13 +67,6 @@ def main():
     st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
-
-    music=st.sidebar.radio('Select Music You Like',['七里香','稻香'],index=random.choice(range(2)))
-    st.sidebar.write(f'正在播放 {music}-周杰伦 :musical_note:')
-    audio_file = open(f'music/{music}-周杰伦.mp3', 'rb')
-    audio_bytes = audio_file.read()
-    audio_file.close()
-    st.sidebar.audio(audio_bytes, format='audio/mp3',start_time=1)
 
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
