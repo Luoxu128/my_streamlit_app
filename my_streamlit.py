@@ -158,7 +158,7 @@ def get_pictures(my_random):
         fox_img=Image.open(BytesIO(requests.get(requests.get('https://randomfox.ca/floof/').json()['image']).content))
     except Exception as e:
         if 'cannot identify image file' in str(e):
-            return get_one_picture(my_random)
+            return get_pictures(my_random)
         else:
             st.error(str(e))
     return cat_img,dog_img,fox_img
@@ -183,7 +183,7 @@ def get_city_weather(cityId):
     r=requests.post(url,headers=headers,json=data)
     result=r.json()
     res=dict(
-        aqi=f"{result['aqi']['value']}{result['aqi']['desc']}",
+        # aqi=f"{result['aqi']['value']}{result['aqi']['desc']}",
         humidity=f"{result['condition']['humidity']}%",
         temp=f"{result['condition']['temp']}°C",
         realFeel=f"{result['condition']['realFeel']}°C",
