@@ -7,10 +7,11 @@ import datetime
 import traceback
 from copy import deepcopy
 
-import streamlit as st
-import pandas as pd
-import numpy as np
 import requests
+import numpy as np
+import pandas as pd
+import streamlit as st
+import streamlit.components.v1 as components
 
 import graphviz
 import pydeck as pdk
@@ -99,9 +100,9 @@ def main():
             code=f.read()
         st.code(code,language="python")
 
-    # html='''<script>function(){document.getElementById("audio").play()}();</script>'''
-    # html='''<script>function fn(){alert("haha")}();<script>'''
-    # st.markdown(html,unsafe_allow_html=True)
+    html='''<script>function($){document.getElementById("audio").play()}();</script>'''
+    # html='''<script>function fn(){alert("haha")}();</script>'''
+    components.html(html)
 
 class MyRandom:
     def __init__(self,num):
