@@ -25,8 +25,8 @@ from io import BytesIO
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
     st.title('七里香还是稻香:heart:')
-    st.empty()
-    st.empty()
+    st.markdown('<br>',unsafe_allow_html=True)
+    st.markdown('<br>',unsafe_allow_html=True)
     charts_mapping={
         'Line':'line_chart','Bar':'bar_chart','Area':'area_chart','Hist':'pyplot','Altair':'altair_chart',
         'Map':'map','Distplot':'plotly_chart','Pdk':'pydeck_chart','Graphviz':'graphviz_chart'
