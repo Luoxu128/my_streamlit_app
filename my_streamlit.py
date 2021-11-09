@@ -203,7 +203,7 @@ def get_city_weather(cityId):
         now=datetime.datetime.fromtimestamp(i['predictDate'])+datetime.timedelta(hours=8)
         diff=(st.session_state.date_time-now).days
         festival=i['festival']
-        tmp['PredictDate']=(day_format[diff] if diff in day_format else now.strftime('%m/%d')) + f' {festival}' if festival != '' else ''
+        tmp['PredictDate']=(day_format[diff] if diff in day_format else now.strftime('%m/%d')) + (f' {festival}' if festival != '' else '')
         tmp['Temperature']=f"{i['tempLow']}~{i['tempHigh']}°C"
         tmp['Humidity']=f"{i['humidity']}%"
         tmp['WeatherDay']=i['weatherDay']
