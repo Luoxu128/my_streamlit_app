@@ -101,8 +101,7 @@ def main():
 
     html='''<script>
     function(){
-        var audio = document.getElementById("audio");
-        audio.play();
+        document.getElementById("audio").play()
     }()
     </script>'''
     st.markdown(html,unsafe_allow_html=True)
