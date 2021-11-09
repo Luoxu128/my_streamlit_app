@@ -69,8 +69,10 @@ def main():
         col4.metric('Humidity',forecastToday['humidity'])
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
-        st.table(df_forecastHours)
-        st.table(df_forecastDays)
+        with st.expander("24 Hours Forecast"):
+            st.table(df_forecastHours)
+        with st.expander("7 Days Forecast"):
+            st.table(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
