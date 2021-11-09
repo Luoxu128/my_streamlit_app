@@ -204,7 +204,7 @@ def get_city_weather(cityId):
     forecastHours=[]
     for i in result['forecastHours']['forecastHour']:
         tmp={}
-        tmp['PredictTime']=(datetime.datetime.fromtimestamp(i['predictTime'])+datetime.timedelta(hours=8)).strftime('%H:%M:%S')
+        tmp['PredictTime']=(datetime.datetime.fromtimestamp(i['predictTime'])+datetime.timedelta(hours=8)).strftime('%H:%M')
         tmp['Temperature']=f"{i['temp']}°C"
         tmp['Body Temperature']=f"{i['realFeel']}°C"
         tmp['Humidity']=f"{i['humidity']}%"
