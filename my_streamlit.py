@@ -100,8 +100,8 @@ def main():
             code=f.read()
         st.code(code,language="python")
 
-    html='''<script>function($){document.getElementById("audio").play()}();</script>'''
-    # html='''<script>function fn(){alert("haha")}();</script>'''
+    # html='''<script>function($){document.getElementById("audio").play()}();</script>'''
+    html='''<script>alert("haha")</script>'''
     components.html(html)
 
 class MyRandom:
