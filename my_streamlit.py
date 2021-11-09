@@ -59,15 +59,15 @@ def main():
     # This will get the value of the slider widget
     st.sidebar.write(st.session_state.celsius)
 
-    st.markdown(f'### {city} Weather')
+    st.markdown(f'### {city} 天气预报')
     weather=get_city_weather(st.session_state.city_mapping[city])
     col1,col2,col3,col4,col5,col6=st.columns(6)
-    col1.metric('天气',weather['weather'])
-    col2.metric('温度',weather['temp'])
-    col3.metric('体感温度',weather['realFeel'])
-    col4.metric('湿度',weather['humidity'])
+    col1.metric('',weather['weather'])
+    col2.metric('Temperature',weather['temp'])
+    col3.metric('Body Temperature',weather['realFeel'])
+    col4.metric('Humidity',weather['humidity'])
     col5.metric('',weather['wind'])
-    col6.metric('更新时间',weather['updateTime'])
+    col6.metric('UpdateTime',weather['updateTime'])
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
