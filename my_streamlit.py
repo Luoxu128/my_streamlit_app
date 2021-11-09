@@ -48,7 +48,6 @@ def main():
     st.sidebar.write(f'The current date time is {d} {t}')
     chart=st.sidebar.selectbox('Select Chart You Like',charts_mapping.keys(),index=st.session_state.random_chart_index)
     city=st.sidebar.selectbox('Select City You Like',st.session_state.city_mapping.keys(),index=st.session_state.random_city_index)
-    st.markdown(f'### {chart} Chart')
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
 
@@ -61,8 +60,12 @@ def main():
     st.sidebar.write(st.session_state.celsius)
 
     weather=get_city_weather(st.session_state.city_mapping[city])
-    st.write(f"空气质量{weather['aqi']}\n体感温度{weather['realFeel']}")
+    col1,col2,col3=st.columns(3)
+    col1.metric('天气',weather['weather'])
+    col2.metric('温度',weather['temp'])
+    col3.metric('体感温度',weather['realFeel'])
 
+    st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
     eval(f'st.{charts_mapping[chart]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
 
