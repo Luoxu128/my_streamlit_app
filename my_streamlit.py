@@ -33,17 +33,17 @@ def main():
         st.session_state.first_visit=True
     else:
         st.session_state.first_visit=False
-    # 初始化配置
+    # 初始化全局配置
     if st.session_state.first_visit:
+        st.session_state.date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
         st.session_state.random_chart_index=random.choice(range(len(charts_mapping)))
         st.session_state.my_random=MyRandom(random.randint(1,1000000))
         st.session_state.city_mapping=get_city_mapping()
         st.session_state.random_city_index=random.choice(range(len(st.session_state.city_mapping)))
         st.balloons()
 
-    date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
-    d=st.sidebar.date_input('Date',date_time.date())
-    t=st.sidebar.time_input('Time',date_time.time())
+    d=st.sidebar.date_input('Date',st.session_state.date_time.date())
+    t=st.sidebar.time_input('Time',st.session_state.date_time.time())
     t=f'{t}'.split('.')[0]
     st.sidebar.write(f'The current date time is {d} {t}')
     chart=st.sidebar.selectbox('Select Chart You Like',charts_mapping.keys(),index=st.session_state.random_chart_index)
@@ -69,7 +69,7 @@ def main():
         col4.metric('Humidity',forecastToday['humidity'])
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
-        st.dataframe(df_forecastDays)
+        st.table(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
@@ -197,9 +197,12 @@ def get_city_weather(cityId):
         updateTime=(datetime.datetime.fromtimestamp(result['condition']['updateTime'])+datetime.timedelta(hours=8)).strftime('%H:%M:%S')
     )
     forecastDays=[]
+    day_format={1:'昨天',0:'今天',-1:'明天'}
     for i in result['forecastDays']['forecastDay']:
         tmp={}
-        tmp['PredictDate']=(datetime.datetime.fromtimestamp(i['predictDate'])+datetime.timedelta(hours=8)).strftime('%m/%d')
+        now=datetime.datetime.fromtimestamp(i['predictDate'])+datetime.timedelta(hours=8)
+        diff=(st.session_state.date_time-now).day
+        tmp['PredictDate']=day_format[diff] if diff in day_format else now.strftime('%m/%d')
         tmp['Temperature']=f"{i['tempLow']}~{i['tempHigh']}°C"
         tmp['Humidity']=f"{i['humidity']}%"
         tmp['WeatherDay']=i['weatherDay']
