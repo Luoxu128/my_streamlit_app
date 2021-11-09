@@ -23,7 +23,7 @@ from io import BytesIO
 
 
 def main():
-    st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
+    st.set_page_config(page_title="七里香还是稻香",page_icon=":shark:",layout="wide",initial_sidebar_state="expanded")
     st.title('七里香还是稻香:heart:')
     st.markdown('<br>',unsafe_allow_html=True)
     st.markdown('<br>',unsafe_allow_html=True)
@@ -73,7 +73,7 @@ def main():
         col6.metric('UpdateTime',forecastToday['updateTime'])
         with st.expander("24 Hours Forecast"):
             st.table(df_forecastHours)
-        with st.expander("7 Days Forecast"):
+        with st.expander("7 Days Forecast",expanded=True):
             st.table(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
