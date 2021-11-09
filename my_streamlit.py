@@ -61,7 +61,7 @@ def main():
 
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
-        forecastToday,df_forecastDays=get_city_weather(st.session_state.city_mapping[city])
+        forecastToday,forecastHours,df_forecastDays=get_city_weather(st.session_state.city_mapping[city])
         col1,col2,col3,col4,col5,col6=st.columns(6)
         col1.metric('Weather',forecastToday['weather'])
         col2.metric('Temperature',forecastToday['temp'])
@@ -69,6 +69,7 @@ def main():
         col4.metric('Humidity',forecastToday['humidity'])
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
+        st.table(forecastHours)
         st.table(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
@@ -188,6 +189,8 @@ def get_city_weather(cityId):
     data={"cityId":cityId,"cityType":0}
     r=requests.post(url,headers=headers,json=data)
     result=r.json()
+
+    # today forecast
     forecastToday=dict(
         humidity=f"{result['condition']['humidity']}%",
         temp=f"{result['condition']['temp']}°C",
@@ -196,6 +199,21 @@ def get_city_weather(cityId):
         wind=f"{result['condition']['windDir']}{result['condition']['windLevel']}级",
         updateTime=(datetime.datetime.fromtimestamp(result['condition']['updateTime'])+datetime.timedelta(hours=8)).strftime('%H:%M:%S')
     )
+
+    # 24 hours forecast
+    forecastHours=[]
+    for i in result['forecastHours']['forecastHour']:
+        tmp={}
+        tmp['PredictTime']=(datetime.datetime.fromtimestamp(i['predictTime'])+datetime.timedelta(hours=8)).strftime('%H:%M:%S')
+        tmp['Temperature']=f"{i['temp']}°C"
+        tmp['Body Temperature']=f"{i['realFeel']}°C"
+        tmp['Humidity']=f"{i['humidity']}%"
+        tmp['Weather']=i['weather']
+        tmp['Wind']=f"{i['windDesc']}{i['windLevel']}级"
+        forecastHours.append(tmp)
+    df_forecastHours=pd.DataFrame(forecastHours).set_index('PredictTime')
+
+    # 7 days forecast
     forecastDays=[]
     day_format={1:'昨天',0:'今天',-1:'明天',-2:'后天'}
     for i in result['forecastDays']['forecastDay']:
@@ -203,7 +221,7 @@ def get_city_weather(cityId):
         now=datetime.datetime.fromtimestamp(i['predictDate'])+datetime.timedelta(hours=8)
         diff=(st.session_state.date_time-now).days
         festival=i['festival']
-        tmp['PredictDate']=(day_format[diff] if diff in day_format else now.strftime('%m/%d')) + (f' {festival}' if festival != '' else '')
+        tmp['PredictDate']=(day_format[diff] if diff in day_format else now.strftime('%m/%d')) + (f'      {festival}' if festival != '' else '')
         tmp['Temperature']=f"{i['tempLow']}~{i['tempHigh']}°C"
         tmp['Humidity']=f"{i['humidity']}%"
         tmp['WeatherDay']=i['weatherDay']
@@ -212,7 +230,7 @@ def get_city_weather(cityId):
         tmp['WindNight']=f"{i['windDirNight']}{i['windLevelNight']}级"
         forecastDays.append(tmp)
     df_forecastDays=pd.DataFrame(forecastDays).set_index('PredictDate')
-    return forecastToday,df_forecastDays
+    return forecastToday,forecastHours,df_forecastDays
 
 
 if __name__ == '__main__':
