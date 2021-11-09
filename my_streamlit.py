@@ -60,7 +60,7 @@ def main():
     st.sidebar.write(st.session_state.celsius)
 
     weather=get_city_weather(st.session_state.city_mapping[city])
-    col1,col2,col3,col4,col5,col6=st.columns(3)
+    col1,col2,col3,col4,col5,col6=st.columns(6)
     col1.metric('天气',weather['weather'])
     col2.metric('温度',weather['temp'])
     col3.metric('体感温度',weather['realFeel'])
