@@ -24,7 +24,7 @@ from io import BytesIO
 
 def main():
     st.set_page_config(page_title="My Streamlit App",page_icon=":shark:",layout="wide")
-    st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
+    # st.title(':sunny:Streamlit is **_really_ cool**.:sunny:')
     charts_mapping={
         'Line':'line_chart','Bar':'bar_chart','Area':'area_chart','Hist':'pyplot','Altair':'altair_chart',
         'Map':'map','Distplot':'plotly_chart','Pdk':'pydeck_chart','Graphviz':'graphviz_chart'
@@ -60,10 +60,13 @@ def main():
     st.sidebar.write(st.session_state.celsius)
 
     weather=get_city_weather(st.session_state.city_mapping[city])
-    col1,col2,col3=st.columns(3)
+    col1,col2,col3,col4,col5,col6=st.columns(3)
     col1.metric('天气',weather['weather'])
     col2.metric('温度',weather['temp'])
     col3.metric('体感温度',weather['realFeel'])
+    col4.metric('湿度',weather['humidity'])
+    col5.metric('',weather['wind'])
+    col6.metric('更新时间',weather['updateTime'])
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
