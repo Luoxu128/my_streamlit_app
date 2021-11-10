@@ -101,8 +101,8 @@ def main():
         st.code(code,language="python")
 
     # html='''<script>document.getElementById("audio").play()</script>'''
-    html='''<script>alert("haha")</script>'''
-    components.html(html)
+    # html='''<script>alert("haha")</script>'''
+    # components.html(html)
 
 class MyRandom:
     def __init__(self,num):
