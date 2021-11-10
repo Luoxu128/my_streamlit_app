@@ -264,7 +264,7 @@ def get_audio_bytes(music):
 
 @st.cache
 def get_video_bytes(video):
-    video_file = open(f'{video}-广告曲.mp4', 'rb')
+    video_file = open(f'video/{video}-广告曲.mp4', 'rb')
     video_bytes = video_file.read()
     video_file.close()
     return video_bytes
