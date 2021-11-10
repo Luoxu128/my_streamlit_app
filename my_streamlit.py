@@ -92,6 +92,13 @@ def main():
     col2.image(dog_img, caption='A Dog Picture',use_column_width=True)
     col3.image(fox_img, caption='A Fox Picture',use_column_width=True)
 
+    st.markdown('### Some Ads Videos')
+    col1,col2=st.columns(2)
+    video1=get_video_bytes('开不了口')
+    col1.video(video1, format='video/mp4')
+    video2=get_video_bytes('最长的电影')
+    col2.video(video2, format='video/mp4')
+
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
             code=f.read()
@@ -256,8 +263,8 @@ def get_audio_bytes(music):
     return audio_bytes
 
 @st.cache
-def get_video_bytes(music):
-    video_file = open('开不了口广告曲.mp4', 'rb')
+def get_video_bytes(video):
+    video_file = open(f'{video}-广告曲.mp4', 'rb')
     video_bytes = video_file.read()
     video_file.close()
     return video_bytes
