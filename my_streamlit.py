@@ -95,9 +95,9 @@ def main():
     st.markdown('### Some Ads Videos')
     col1,col2=st.columns(2)
     video1=get_video_bytes('开不了口')
-    col1.video(video1, format='video/mp4')
-    video2=get_video_bytes('最长的电影')
-    col2.video(video2, format='video/mp4')
+    col1.video(video1)
+    # video2=get_video_bytes('最长的电影')
+    # col2.video(video2, format='video/mp4')
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
