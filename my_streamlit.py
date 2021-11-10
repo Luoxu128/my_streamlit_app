@@ -92,10 +92,10 @@ def main():
     col2.image(dog_img, caption='A Dog Picture',use_column_width=True)
     col3.image(fox_img, caption='A Fox Picture',use_column_width=True)
 
-    st.markdown('### Some Ads Videos')
-    col1,col2=st.columns(2)
-    video1=get_video_bytes('开不了口')
-    col1.video(video1)
+    # st.markdown('### Some Ads Videos')
+    # col1,col2=st.columns(2)
+    # video1=get_video_bytes('开不了口')
+    # col1.video(video1)
     # video2=get_video_bytes('最长的电影')
     # col2.video(video2, format='video/mp4')
 
