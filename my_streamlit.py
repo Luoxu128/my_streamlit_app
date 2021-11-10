@@ -11,7 +11,6 @@ import requests
 import numpy as np
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 
 import graphviz
 import pydeck as pdk
@@ -47,9 +46,7 @@ def main():
 
     music=st.sidebar.radio('Select Music You Like',['七里香','稻香'],index=random.choice(range(2)))
     st.sidebar.write(f'正在播放 {music}-周杰伦 :musical_note:')
-    audio_file = open(f'music/{music}-周杰伦.mp3', 'rb')
-    audio_bytes = audio_file.read()
-    audio_file.close()
+    audio_bytes=get_audio_bytes(music)
     st.sidebar.audio(audio_bytes, format='audio/mp3')
 
     d=st.sidebar.date_input('Date',st.session_state.date_time.date())
@@ -99,10 +96,6 @@ def main():
         with open('my_streamlit.py','r') as f:
             code=f.read()
         st.code(code,language="python")
-
-    # html='''<script>document.getElementById("audio").play()</script>'''
-    # html='''<script>alert("haha")</script>'''
-    # components.html(html)
 
 class MyRandom:
     def __init__(self,num):
@@ -255,6 +248,19 @@ def get_city_weather(cityId):
     df_forecastDays=pd.DataFrame(forecastDays).set_index('PredictDate')
     return forecastToday,df_forecastHours,df_forecastDays
 
+@st.cache
+def get_audio_bytes(music):
+    audio_file = open(f'music/{music}-周杰伦.mp3', 'rb')
+    audio_bytes = audio_file.read()
+    audio_file.close()
+    return audio_bytes
+
+@st.cache
+def get_video_bytes(music):
+    video_file = open('开不了口广告曲.mp4', 'rb')
+    video_bytes = video_file.read()
+    video_file.close()
+    return video_bytes
 
 if __name__ == '__main__':
     main()
