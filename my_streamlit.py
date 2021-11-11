@@ -112,7 +112,7 @@ def main():
         )
 
         t = Timeline()
-        t.add_schema(play_interval=5,is_auto_play=True)
+        t.add_schema(play_interval=5000,is_auto_play=True)
         t.add(c1, "24 Hours Forecast")
         t.add(c2, "7 Days Forecast")
         components.html(t.render_embed(), width=1200, height=520)
