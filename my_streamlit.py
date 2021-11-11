@@ -83,7 +83,7 @@ def main():
         with st.expander("7 Days Forecast",expanded=True):
             st.table(df_forecastDays)
 
-        c = (
+        c1 = (
             Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
             .add_xaxis(df_forecastHours.index.to_list())
             .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
@@ -91,14 +91,14 @@ def main():
             .set_global_opts(
                 title_opts=opts.TitleOpts(title="24 Hours Forecast"),
                 xaxis_opts=opts.AxisOpts(type_="category"),
+                yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
                 tooltip_opts=opts.TooltipOpts(trigger="axis")
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed() # generate a local HTML file
         )
-        components.html(c, width=1200, height=520)
 
-        c = (
+        c2 = (
             Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
             .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
             .add_yaxis(series_name="High Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])))
@@ -106,13 +106,15 @@ def main():
             .set_global_opts(
                 title_opts=opts.TitleOpts(title="7 Days Forecast"),
                 xaxis_opts=opts.AxisOpts(type_="category"),
-                yaxis_opts=opts.AxisOpts(type_="value",name="Temperature",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
+                yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
                 tooltip_opts=opts.TooltipOpts(trigger="axis")
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
-            .render_embed()
         )
-        components.html(c, width=1200, height=520)
+        tab = Tab()
+        tab.add(c1, "24 Hours Forecast")
+        tab.add(c2, "7 Days Forecast")
+        components.html(tab.render_embed(), width=1200, height=520)
 
 
     st.markdown(f'### {chart} Chart')
