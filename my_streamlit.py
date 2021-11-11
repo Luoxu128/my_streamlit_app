@@ -16,6 +16,7 @@ import altair as alt
 import plotly.figure_factory as ff
 import matplotlib.pyplot as plt
 from pyecharts.charts import *
+from pyecharts.globals import ThemeType
 from pyecharts import options as opts
 from pyecharts.commons.utils import JsCode
 
@@ -83,7 +84,7 @@ def main():
             st.table(df_forecastDays)
 
         c = (
-            Line()
+            Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
             .add_xaxis(df_forecastHours.index.to_list())
             .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
             .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
@@ -91,7 +92,8 @@ def main():
                 title_opts=opts.TitleOpts(title="24 Hours Forecast"),
                 toolbox_opts=opts.ToolboxOpts(),
                 xaxis_opts=opts.AxisOpts(type_="category"),
-                tooltip_opts=opts.TooltipOpts(trigger="axis",formatter='{b}\n{a}: {c}\n{a}: {c}')
+                tooltip_opts=opts.TooltipOpts(trigger="axis"),
+                label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}"))
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed() # generate a local HTML file
@@ -99,7 +101,7 @@ def main():
         components.html(c, width=1200, height=520)
 
         c = (
-            Line()
+            Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
             .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
             .add_yaxis(series_name="High Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])))
             .add_yaxis(series_name="Low Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])))
@@ -107,7 +109,8 @@ def main():
                 title_opts=opts.TitleOpts(title="7 Days Forecast"),
                 toolbox_opts=opts.ToolboxOpts(),
                 xaxis_opts=opts.AxisOpts(type_="category"),
-                tooltip_opts=opts.TooltipOpts(trigger="axis")
+                tooltip_opts=opts.TooltipOpts(trigger="axis"),
+                label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}"))
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed()
