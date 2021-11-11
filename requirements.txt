@@ -11,3 +11,4 @@ graphviz==0.17
 scipy==1.6.1
 Pillow==8.1.2
 streamlit-player==0.1.5
+streamlit-echarts==0.3.0

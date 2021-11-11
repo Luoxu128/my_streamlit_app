@@ -11,6 +11,7 @@ import requests
 import numpy as np
 import pandas as pd
 import streamlit as st
+from streamlit_echarts import st_echarts
 
 import graphviz
 import pydeck as pdk
@@ -21,8 +22,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from io import BytesIO
 
-from streamlit_player import st_player
-
 
 def main():
     st.set_page_config(page_title="七里香还是稻香",page_icon=":rainbow:",layout="wide",initial_sidebar_state="expanded")
@@ -31,7 +30,7 @@ def main():
     st.markdown('<br>',unsafe_allow_html=True)
     charts_mapping={
         'Line':'line_chart','Bar':'bar_chart','Area':'area_chart','Hist':'pyplot','Altair':'altair_chart',
-        'Map':'map','Distplot':'plotly_chart','Pdk':'pydeck_chart','Graphviz':'graphviz_chart'
+        'Map':'map','Distplot':'plotly_chart','Pdk':'pydeck_chart','Graphviz':'graphviz_chart','PyEchart':''
     }
     if 'first_visit' not in st.session_state:
         st.session_state.first_visit=True
@@ -85,7 +84,7 @@ def main():
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
-    eval(f'st.{charts_mapping[chart]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})')
+    eval(f'st.{charts_mapping[chart]}(df{",use_container_width=True" if chart in ["Distplot","Altair"] else ""})' if chart != 'PyEchart' else f'st_echarts(options=df)')
 
     st.markdown('### Animal Pictures')
     col1,col2,col3=st.columns(3)
@@ -100,8 +99,6 @@ def main():
     col1.video(video1)
     video2=get_video_bytes('最长的电影')
     col2.video(video2, format='video/mp4')
-
-    st_player("https://www.youtube.com/watch?v=HK7SPnGSxLM")
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
@@ -177,6 +174,19 @@ def get_chart_data(chart,my_random):
         graph.edge('where my wife?', 'son')
         graph.edge('where my wife?', 'daughter')
         return graph
+
+    elif chart == 'PyEchart':
+        options = {
+            "xAxis": {
+                "type": "category",
+                "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            },
+            "yAxis": {"type": "value"},
+            "series": [
+                {"data": [820, 932, 901, 934, 1290, 1330, 1320], "type": "line"}
+            ],
+        }
+        return options
 
 @st.cache(hash_funcs={MyRandom: my_hash_func})
 def get_pictures(my_random):
