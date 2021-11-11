@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from io import BytesIO
 
+from streamlit_player import st_player
+
 
 def main():
     st.set_page_config(page_title="七里香还是稻香",page_icon=":rainbow:",layout="wide",initial_sidebar_state="expanded")
@@ -98,6 +100,8 @@ def main():
     col1.video(video1)
     video2=get_video_bytes('最长的电影')
     col2.video(video2, format='video/mp4')
+
+    st_player("https://www.youtube.com/watch?v=HK7SPnGSxLM")
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
