@@ -70,7 +70,7 @@ def main():
 
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
-        forecastToday,df_forecastHours,df_forecastDays,c1,c2=get_city_weather(st.session_state.city_mapping[city])
+        forecastToday,df_forecastHours,df_forecastDays=get_city_weather(st.session_state.city_mapping[city])
         col1,col2,col3,col4,col5,col6=st.columns(6)
         col1.metric('Weather',forecastToday['weather'])
         col2.metric('Temperature',forecastToday['temp'])
@@ -78,6 +78,7 @@ def main():
         col4.metric('Humidity',forecastToday['humidity'])
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
+        c1,c2=get_weather_charts(df_forecastHours,df_forecastDays)
         t = Timeline()
         t.add_schema(play_interval=10000,is_auto_play=True)
         t.add(c1, "24 Hours Forecast")
@@ -273,7 +274,10 @@ def get_city_weather(cityId):
         tmp['WindNight']=f"{i['windDirNight']}{i['windLevelNight']}级"
         forecastDays.append(tmp)
     df_forecastDays=pd.DataFrame(forecastDays).set_index('PredictDate')
+    return forecastToday,df_forecastHours,df_forecastDays
 
+@st.cache
+def get_weather_charts(df_forecastHours,df_forecastDays):
     c1 = (
         Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
         .add_xaxis(df_forecastHours.index.to_list())
@@ -301,7 +305,8 @@ def get_city_weather(cityId):
             )
         .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
     )
-    return forecastToday,df_forecastHours,df_forecastDays,c1,c2
+
+    return c1,c2
 
 @st.cache
 def get_audio_bytes(music):
