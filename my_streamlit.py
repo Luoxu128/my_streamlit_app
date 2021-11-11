@@ -91,7 +91,7 @@ def main():
                 title_opts=opts.TitleOpts(title="24 Hours Forecast"),
                 toolbox_opts=opts.ToolboxOpts(),
                 xaxis_opts=opts.AxisOpts(type_="category"),
-                tooltip_opts=opts.TooltipOpts(trigger="axis",formatter=JsCode("function(x){return x.data[1] + '°C';}"))
+                tooltip_opts=opts.TooltipOpts(trigger="axis",label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed() # generate a local HTML file
@@ -107,7 +107,7 @@ def main():
                 title_opts=opts.TitleOpts(title="7 Days Forecast"),
                 toolbox_opts=opts.ToolboxOpts(),
                 xaxis_opts=opts.AxisOpts(type_="category"),
-                tooltip_opts=opts.TooltipOpts(trigger="axis",formatter=JsCode("function(x){return x.data[1] + '°C';}"))
+                tooltip_opts=opts.TooltipOpts(trigger="axis",label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed()
