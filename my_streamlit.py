@@ -106,7 +106,7 @@ def main():
             .set_global_opts(
                 title_opts=opts.TitleOpts(title="7 Days Forecast"),
                 xaxis_opts=opts.AxisOpts(type_="category"),
-                yaxis_opts=opts.AxisOpts(type_="value",name="Temperature",axislabel_opts=opts.LabelOpts(formatter="{value} °C"),)
+                yaxis_opts=opts.AxisOpts(type_="value",name="Temperature",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
                 tooltip_opts=opts.TooltipOpts(trigger="axis")
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
