@@ -87,10 +87,10 @@ def main():
         .add_xaxis(df_forecastHours.index.to_list())
         .add_yaxis('Temperature', [int(i.replace('°C','')) for i in df_forecastHours.Temperature.values.tolist()])
         .set_global_opts(title_opts=opts.TitleOpts(title="24 Hours Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category", boundary_gap=False))
-        .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data + '°C';}")))
+        .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         .render_embed() # generate a local HTML file
     )
-    components.html(c, width=1200, height=800)
+    components.html(c, width=1200, height=600)
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
