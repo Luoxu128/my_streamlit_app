@@ -78,20 +78,20 @@ def main():
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
         with st.expander("24 Hours Forecast"):
-            st.table(df_forecastHours)
+            st.table(df_forecastHours.style.format({'Temperature':'{}°C','Body Temperature':'{}°C','Humidity':'{}%'}))
         with st.expander("7 Days Forecast",expanded=True):
             st.table(df_forecastDays)
 
     c = (
         Line()
         .add_xaxis(df_forecastHours.index.to_list())
-        .add_yaxis('Temperature', [int(i.replace('°C','')) for i in df_forecastHours.Temperature.values.tolist()])
-        .add_yaxis('Body Temperature', [int(i.replace('°C','')) for i in df_forecastHours['Body Temperature'].values.tolist()])
+        .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
+        .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
         .set_global_opts(title_opts=opts.TitleOpts(title="24 Hours Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category", boundary_gap=False))
         .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         .render_embed() # generate a local HTML file
     )
-    components.html(c, width=1200, height=400)
+    components.html(c, width=1200, height=500)
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
@@ -253,9 +253,9 @@ def get_city_weather(cityId):
     for i in result['forecastHours']['forecastHour']:
         tmp={}
         tmp['PredictTime']=(datetime.datetime.fromtimestamp(i['predictTime'])+datetime.timedelta(hours=8)).strftime('%H:%M')
-        tmp['Temperature']=f"{i['temp']}°C"
-        tmp['Body Temperature']=f"{i['realFeel']}°C"
-        tmp['Humidity']=f"{i['humidity']}%"
+        tmp['Temperature']=i['temp']
+        tmp['Body Temperature']=i['realFeel']
+        tmp['Humidity']=i['humidity']
         tmp['Weather']=i['weather']
         tmp['Wind']=f"{i['windDesc']}{i['windLevel']}级"
         forecastHours.append(tmp)
