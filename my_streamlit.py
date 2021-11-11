@@ -1,16 +1,13 @@
-import os
-import sys
 import json
 import time
 import random
 import datetime
-import traceback
-from copy import deepcopy
 
 import requests
 import numpy as np
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 from streamlit_echarts import st_echarts
 
 import graphviz
@@ -18,6 +15,8 @@ import pydeck as pdk
 import altair as alt
 import plotly.figure_factory as ff
 import matplotlib.pyplot as plt
+from pyecharts.charts import Bar
+from pyecharts import options as opts
 
 from PIL import Image
 from io import BytesIO
@@ -81,6 +80,15 @@ def main():
             st.table(df_forecastHours)
         with st.expander("7 Days Forecast",expanded=True):
             st.table(df_forecastDays)
+
+    c = (Bar()
+        .add_xaxis(["Microsoft", "Amazon", "IBM", "Oracle", "Google", "Alibaba"])
+        .add_yaxis('2017-2018 Revenue in (billion $)', [21.2, 20.4, 10.3, 6.08, 4, 2.2])
+        .set_global_opts(title_opts=opts.TitleOpts(title="Top cloud providers 2018", subtitle="2017-2018 Revenue"),
+                         toolbox_opts=opts.ToolboxOpts())
+        .render_embed() # generate a local HTML file
+    )
+    components.html(c, width=1000, height=1000)
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)

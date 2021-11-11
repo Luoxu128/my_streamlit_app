@@ -12,3 +12,4 @@ scipy==1.6.1
 Pillow==8.1.2
 streamlit-player==0.1.5
 streamlit-echarts==0.3.0
+pyecharts==1.9.0
