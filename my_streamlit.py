@@ -82,16 +82,17 @@ def main():
         with st.expander("7 Days Forecast",expanded=True):
             st.table(df_forecastDays)
 
-    c = (
-        Line()
-        .add_xaxis(df_forecastHours.index.to_list())
-        .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
-        .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
-        .set_global_opts(title_opts=opts.TitleOpts(title="24 Hours Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category", boundary_gap=False))
-        .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
-        .render_embed() # generate a local HTML file
-    )
-    components.html(c, width=1200, height=500)
+        c = (
+            Line()
+            .add_xaxis(df_forecastHours.index.to_list())
+            .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
+            .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
+            .set_global_opts(title_opts=opts.TitleOpts(title="24 Hours Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category"))
+            .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
+            .render_embed() # generate a local HTML file
+        )
+        components.html(c, width=1200, height=520)
+
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
