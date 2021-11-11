@@ -86,7 +86,7 @@ def main():
         c = (
             Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
             .add_xaxis(df_forecastHours.index.to_list())
-            .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist(),label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
+            .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
             .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
             .set_global_opts(
                 title_opts=opts.TitleOpts(title="24 Hours Forecast"),
@@ -106,6 +106,7 @@ def main():
             .set_global_opts(
                 title_opts=opts.TitleOpts(title="7 Days Forecast"),
                 xaxis_opts=opts.AxisOpts(type_="category"),
+                yaxis_opts=opts.AxisOpts(type_="value",name="Temperature",axislabel_opts=opts.LabelOpts(formatter="{value} °C"),)
                 tooltip_opts=opts.TooltipOpts(trigger="axis")
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
