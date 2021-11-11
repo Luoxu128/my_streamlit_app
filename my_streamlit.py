@@ -99,12 +99,18 @@ def main():
             .add_yaxis(
                 series_name="High Temperature",
                 y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])),
-                markline_opts=opts.MarkLineOpts(data=[opts.MarkLineItem(type_="average", name="平均值")])
+                markline_opts=opts.MarkLineOpts(
+                    data=[opts.MarkLineItem(type_="average", name="Average")],
+                    label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}"))
+                    )
                 )
             .add_yaxis(
                 series_name="Low Temperature",
                 y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])),
-                markline_opts=opts.MarkLineOpts(data=[opts.MarkLineItem(type_="average", name="平均值")])
+                markline_opts=opts.MarkLineOpts(
+                    data=[opts.MarkLineItem(type_="average", name="Average")],
+                    label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}"))
+                    )
                 )
             .set_global_opts(title_opts=opts.TitleOpts(title="7 Days Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category"))
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
