@@ -87,7 +87,12 @@ def main():
             .add_xaxis(df_forecastHours.index.to_list())
             .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
             .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
-            .set_global_opts(title_opts=opts.TitleOpts(title="24 Hours Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category"),tooltip_opts=opts.TooltipOpts(trigger="axis"))
+            .set_global_opts(
+                title_opts=opts.TitleOpts(title="24 Hours Forecast"),
+                toolbox_opts=opts.ToolboxOpts(),
+                xaxis_opts=opts.AxisOpts(type_="category"),
+                tooltip_opts=opts.TooltipOpts(trigger="axis",formatter=JsCode("function(x){return x.data[1] + '°C';}"))
+                )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed() # generate a local HTML file
         )
@@ -96,23 +101,14 @@ def main():
         c = (
             Line()
             .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
-            .add_yaxis(
-                series_name="High Temperature",
-                y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])),
-                markline_opts=opts.MarkLineOpts(
-                    data=[opts.MarkLineItem(type_="average", name="Average")],
-                    label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x + '°C';}"))
-                    )
+            .add_yaxis(series_name="High Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])))
+            .add_yaxis(series_name="Low Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])))
+            .set_global_opts(
+                title_opts=opts.TitleOpts(title="7 Days Forecast"),
+                toolbox_opts=opts.ToolboxOpts(),
+                xaxis_opts=opts.AxisOpts(type_="category"),
+                tooltip_opts=opts.TooltipOpts(trigger="axis",formatter=JsCode("function(x){return x.data[1] + '°C';}"))
                 )
-            .add_yaxis(
-                series_name="Low Temperature",
-                y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])),
-                markline_opts=opts.MarkLineOpts(
-                    data=[opts.MarkLineItem(type_="average", name="Average")],
-                    label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x + '°C';}"))
-                    )
-                )
-            .set_global_opts(title_opts=opts.TitleOpts(title="7 Days Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category"),tooltip_opts=opts.TooltipOpts(trigger="axis"))
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed()
         )
