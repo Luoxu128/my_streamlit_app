@@ -25,7 +25,7 @@ from io import BytesIO
 
 
 def main():
-    st.set_page_config(page_title="七里香还是稻香",page_icon=":rainbow:",layout="wide",initial_sidebar_state="expanded")
+    st.set_page_config(page_title="七里香还是稻香",page_icon=":rainbow:",layout="wide",initial_sidebar_state="auto")
     st.title('七里香还是稻香:heart:')
     st.markdown('<br>',unsafe_allow_html=True)
     st.markdown('<br>',unsafe_allow_html=True)
@@ -60,14 +60,6 @@ def main():
     color = st.sidebar.color_picker('Pick A Color You Like', '#1535C9')
     st.sidebar.write('The current color is', color)
 
-    if "celsius" not in st.session_state:
-        # set the initial default value of the slider widget
-        st.session_state.celsius = 50.0
-
-    st.sidebar.slider("Temperature in Celsius",min_value=0.0,max_value=100.0,key="celsius")
-    # This will get the value of the slider widget
-    st.sidebar.write(st.session_state.celsius)
-
     with st.container():
         st.markdown(f'### {city} Weather Forecast')
         forecastToday,df_forecastHours,df_forecastDays=get_city_weather(st.session_state.city_mapping[city])
@@ -79,7 +71,7 @@ def main():
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
         c1 = (
-            Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
+            Line()
             .add_xaxis(df_forecastHours.index.to_list())
             .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
             .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
@@ -93,7 +85,7 @@ def main():
         )
 
         c2 = (
-            Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
+            Line()
             .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
             .add_yaxis(series_name="High Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])))
             .add_yaxis(series_name="Low Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])))
@@ -106,7 +98,7 @@ def main():
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         )
 
-        t = Timeline()
+        t = Timeline(init_opts=opts.InitOpts(theme=ThemeType.LIGHT,width='1200px'))
         t.add_schema(play_interval=10000,is_auto_play=True)
         t.add(c1, "24 Hours Forecast")
         t.add(c2, "7 Days Forecast")
@@ -133,6 +125,11 @@ def main():
     col1.video(video1)
     video2=get_video_bytes('最长的电影')
     col2.video(video2, format='video/mp4')
+
+    st.markdown('### About Me')
+    with open('README.md','r') as f:
+        readme=f.read()
+    st.markdown(readme)
 
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
