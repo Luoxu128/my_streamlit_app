@@ -112,8 +112,8 @@ def main():
         )
 
         grid = Grid()
-        grid.add(c1)
-        grid.add(c2)
+        grid.add(c1,grid_opts=opts.GridOpts())
+        grid.add(c2,grid_opts=opts.GridOpts())
         components.html(grid.render_embed(), width=1200, height=520)
 
 
