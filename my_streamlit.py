@@ -97,42 +97,20 @@ def main():
             Line()
             .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
             .add_yaxis(
-                series_name="最高气温",
+                series_name="High Temperature",
                 y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])),
-                markpoint_opts=opts.MarkPointOpts(
-                    data=[
-                        opts.MarkPointItem(type_="max", name="最大值"),
-                        opts.MarkPointItem(type_="min", name="最小值"),
-                    ]
-                ),
-                markline_opts=opts.MarkLineOpts(
-                    data=[opts.MarkLineItem(type_="average", name="平均值")]
-                ),
-            )
+                markline_opts=opts.MarkLineOpts(data=[opts.MarkLineItem(type_="average", name="平均值")])
+                )
             .add_yaxis(
-                series_name="最低气温",
+                series_name="Low Temperature",
                 y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])),
-                markpoint_opts=opts.MarkPointOpts(
-                    data=[opts.MarkPointItem(value=-2, name="周最低", x=1, y=-1.5)]
-                ),
-                markline_opts=opts.MarkLineOpts(
-                    data=[
-                        opts.MarkLineItem(type_="average", name="平均值"),
-                        opts.MarkLineItem(symbol="none", x="90%", y="max"),
-                        opts.MarkLineItem(symbol="circle", type_="max", name="最高点"),
-                    ]
-                ),
-            )
-            .set_global_opts(
-                title_opts=opts.TitleOpts(title="7 Days Forecast"),
-                tooltip_opts=opts.TooltipOpts(trigger="axis"),
-                toolbox_opts=opts.ToolboxOpts(is_show=True),
-                xaxis_opts=opts.AxisOpts(type_="category"),
-            )
+                markline_opts=opts.MarkLineOpts(data=[opts.MarkLineItem(type_="average", name="平均值")])
+                )
+            .set_global_opts(title_opts=opts.TitleOpts(title="7 Days Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category"))
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed()
         )
-        components.html(c, width=1200, height=800)
+        components.html(c, width=1200, height=520)
 
 
     st.markdown(f'### {chart} Chart')
