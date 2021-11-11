@@ -111,10 +111,10 @@ def main():
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         )
 
-        t = Timeline()
-        t.add(c1, "24 Hours Forecast")
-        t.add(c2, "7 Days Forecast")
-        components.html(t.render_embed(), width=1200, height=520)
+        grid = Grid()
+        grid.add(c1)
+        grid.add(c2)
+        components.html(grid.render_embed(), width=1200, height=520)
 
 
     st.markdown(f'### {chart} Chart')
