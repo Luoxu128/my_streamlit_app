@@ -78,15 +78,42 @@ def main():
         col4.metric('Humidity',forecastToday['humidity'])
         col5.metric('Wind',forecastToday['wind'])
         col6.metric('UpdateTime',forecastToday['updateTime'])
-        c1,c2=get_weather_charts(df_forecastHours,df_forecastDays)
+        c1 = (
+            Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
+            .add_xaxis(df_forecastHours.index.to_list())
+            .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
+            .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
+            .set_global_opts(
+                title_opts=opts.TitleOpts(title="24 Hours Forecast"),
+                xaxis_opts=opts.AxisOpts(type_="category"),
+                yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
+                tooltip_opts=opts.TooltipOpts(trigger="axis")
+                )
+            .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
+        )
+
+        c2 = (
+            Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
+            .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
+            .add_yaxis(series_name="High Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])))
+            .add_yaxis(series_name="Low Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])))
+            .set_global_opts(
+                title_opts=opts.TitleOpts(title="7 Days Forecast"),
+                xaxis_opts=opts.AxisOpts(type_="category"),
+                yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
+                tooltip_opts=opts.TooltipOpts(trigger="axis")
+                )
+            .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
+        )
+
         t = Timeline()
         t.add_schema(play_interval=10000,is_auto_play=True)
         t.add(c1, "24 Hours Forecast")
         t.add(c2, "7 Days Forecast")
         components.html(t.render_embed(), width=1200, height=520)
-        with st.expander("24 Hours Forecast"):
+        with st.expander("24 Hours Forecast Data"):
             st.table(df_forecastHours.style.format({'Temperature':'{}°C','Body Temperature':'{}°C','Humidity':'{}%'}))
-        with st.expander("7 Days Forecast",expanded=True):
+        with st.expander("7 Days Forecast Data"):
             st.table(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
@@ -275,38 +302,6 @@ def get_city_weather(cityId):
         forecastDays.append(tmp)
     df_forecastDays=pd.DataFrame(forecastDays).set_index('PredictDate')
     return forecastToday,df_forecastHours,df_forecastDays
-
-@st.cache
-def get_weather_charts(df_forecastHours,df_forecastDays):
-    c1 = (
-        Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
-        .add_xaxis(df_forecastHours.index.to_list())
-        .add_yaxis('Temperature', df_forecastHours.Temperature.values.tolist())
-        .add_yaxis('Body Temperature', df_forecastHours['Body Temperature'].values.tolist())
-        .set_global_opts(
-            title_opts=opts.TitleOpts(title="24 Hours Forecast"),
-            xaxis_opts=opts.AxisOpts(type_="category"),
-            yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
-            tooltip_opts=opts.TooltipOpts(trigger="axis")
-            )
-        .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
-    )
-
-    c2 = (
-        Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
-        .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
-        .add_yaxis(series_name="High Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[1])))
-        .add_yaxis(series_name="Low Temperature",y_axis=df_forecastDays.Temperature.apply(lambda x:int(x.replace('°C','').split('~')[0])))
-        .set_global_opts(
-            title_opts=opts.TitleOpts(title="7 Days Forecast"),
-            xaxis_opts=opts.AxisOpts(type_="category"),
-            yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
-            tooltip_opts=opts.TooltipOpts(trigger="axis")
-            )
-        .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
-    )
-
-    return c1,c2
 
 @st.cache
 def get_audio_bytes(music):
