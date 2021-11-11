@@ -110,10 +110,11 @@ def main():
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         )
-        tab = Tab()
-        tab.add(c1, "24 Hours Forecast")
-        tab.add(c2, "7 Days Forecast")
-        components.html(tab.render_embed(), width=1200, height=520)
+
+        t = Timeline()
+        t.add(c1, "24 Hours Forecast")
+        t.add(c2, "7 Days Forecast")
+        components.html(t.render_embed(), width=1200, height=520)
 
 
     st.markdown(f'### {chart} Chart')
