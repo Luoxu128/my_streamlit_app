@@ -112,7 +112,7 @@ def main():
                     label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data + '°C';}"))
                     )
                 )
-            .set_global_opts(title_opts=opts.TitleOpts(title="7 Days Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category"))
+            .set_global_opts(title_opts=opts.TitleOpts(title="7 Days Forecast"),toolbox_opts=opts.ToolboxOpts(),xaxis_opts=opts.AxisOpts(type_="category"),tooltip_opts=opts.TooltipOpts(trigger="axis"))
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed()
         )
