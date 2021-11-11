@@ -94,7 +94,7 @@ def main():
         components.html(c, width=1200, height=520)
 
         c = (
-            Line(init_opts=opts.InitOpts(width="1600px", height="800px"))
+            Line()
             .add_xaxis(xaxis_data=df_forecastDays.index.to_list())
             .add_yaxis(
                 series_name="最高气温",
@@ -124,11 +124,12 @@ def main():
                 ),
             )
             .set_global_opts(
-                title_opts=opts.TitleOpts(title="未来一周气温变化", subtitle="纯属虚构"),
+                title_opts=opts.TitleOpts(title="7 Days Forecast"),
                 tooltip_opts=opts.TooltipOpts(trigger="axis"),
                 toolbox_opts=opts.ToolboxOpts(is_show=True),
-                xaxis_opts=opts.AxisOpts(type_="category", boundary_gap=False),
+                xaxis_opts=opts.AxisOpts(type_="category"),
             )
+            .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
             .render_embed()
         )
         components.html(c, width=1200, height=800)
