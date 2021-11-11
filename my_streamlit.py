@@ -95,7 +95,6 @@ def main():
                 tooltip_opts=opts.TooltipOpts(trigger="axis")
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
-            .render_embed() # generate a local HTML file
         )
 
         c2 = (
