@@ -82,13 +82,12 @@ def main():
             st.table(df_forecastDays)
 
     c = (Bar()
-        .add_xaxis(["Microsoft", "Amazon", "IBM", "Oracle", "Google", "Alibaba"])
-        .add_yaxis('2017-2018 Revenue in (billion $)', [21.2, 20.4, 10.3, 6.08, 4, 2.2])
-        .set_global_opts(title_opts=opts.TitleOpts(title="Top cloud providers 2018", subtitle="2017-2018 Revenue"),
-                         toolbox_opts=opts.ToolboxOpts())
+        .add_xaxis(df_forecastHours.index.to_list())
+        .add_yaxis('Temperature', df_forecastHours.Temperature.values.to_list())
+        .set_global_opts(title_opts=opts.TitleOpts(title="24 Hours Forecast"),toolbox_opts=opts.ToolboxOpts())
         .render_embed() # generate a local HTML file
     )
-    components.html(c, width=1000, height=1000)
+    components.html(c)
 
     st.markdown(f'### {chart} Chart')
     df=get_chart_data(chart,st.session_state.my_random)
