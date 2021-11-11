@@ -114,7 +114,7 @@ def main():
         grid = Grid()
         grid.add(c1,grid_opts=opts.GridOpts(pos_left="50%"))
         grid.add(c2,grid_opts=opts.GridOpts(pos_right="50%"))
-        components.html(grid.render_embed(), width=1200, height=520)
+        components.html(grid.render_embed(), width=2000, height=520)
 
 
     st.markdown(f'### {chart} Chart')
