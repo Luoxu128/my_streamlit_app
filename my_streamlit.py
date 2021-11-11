@@ -111,7 +111,7 @@ def main():
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         )
 
-        grid = Grid(init_opts=opts.InitOpts(width="1200px", height="520px"))
+        grid = Grid(init_opts=opts.InitOpts(width="1600px", height="520px"))
         grid.add(c1,grid_opts=opts.GridOpts(pos_left="50%"))
         grid.add(c2,grid_opts=opts.GridOpts(pos_right="50%"))
         components.html(grid.render_embed(), width=1600, height=520)
