@@ -80,7 +80,7 @@ def main():
                 title_opts=opts.TitleOpts(title="24 Hours Forecast"),
                 xaxis_opts=opts.AxisOpts(type_="category"),
                 yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
-                tooltip_opts=opts.TooltipOpts(trigger="axis")
+                tooltip_opts=opts.TooltipOpts(trigger="axis", axis_pointer_type="cross")
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         )
@@ -94,7 +94,7 @@ def main():
                 title_opts=opts.TitleOpts(title="7 Days Forecast"),
                 xaxis_opts=opts.AxisOpts(type_="category"),
                 yaxis_opts=opts.AxisOpts(type_="value",axislabel_opts=opts.LabelOpts(formatter="{value} °C")),
-                tooltip_opts=opts.TooltipOpts(trigger="axis")
+                tooltip_opts=opts.TooltipOpts(trigger="axis", axis_pointer_type="cross")
                 )
             .set_series_opts(label_opts=opts.LabelOpts(formatter=JsCode("function(x){return x.data[1] + '°C';}")))
         )
