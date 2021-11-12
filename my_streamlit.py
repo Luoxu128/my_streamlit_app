@@ -39,7 +39,8 @@ def main():
         st.session_state.first_visit=False
     # 初始化全局配置
     if st.session_state.first_visit:
-        st.session_state.date_time=datetime.datetime.now() + datetime.timedelta(hours=8)
+        # 在这里可以定义任意多个全局变量，方便程序进行调用
+        st.session_state.date_time=datetime.datetime.now() + datetime.timedelta(hours=8) # Streamlit Cloud的时区是UTC，加8小时即北京时间
         st.session_state.random_chart_index=random.choice(range(len(charts_mapping)))
         st.session_state.my_random=MyRandom(random.randint(1,1000000))
         st.session_state.city_mapping,st.session_state.random_city_index=get_city_mapping()
@@ -105,7 +106,7 @@ def main():
         components.html(t.render_embed(), width=1200, height=520)
         with st.expander("24 Hours Forecast Data"):
             st.table(df_forecastHours.style.format({'Temperature':'{}°C','Body Temperature':'{}°C','Humidity':'{}%'}))
-        with st.expander("7 Days Forecast Data"):
+        with st.expander("7 Days Forecast Data",expanded=True):
             st.table(df_forecastDays)
 
     st.markdown(f'### {chart} Chart')
@@ -133,6 +134,8 @@ def main():
         readme=f.read()
     st.markdown(readme)
 
+    st.markdown('<br>',unsafe_allow_html=True)
+    st.markdown('<br>',unsafe_allow_html=True)
     with st.expander("View Code"):
         with open('my_streamlit.py','r') as f:
             code=f.read()
